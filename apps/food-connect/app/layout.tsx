@@ -50,7 +50,7 @@ export default function RootLayout({
 
         <footer className="bg-gray-900 text-white py-12 px-4 mt-20">
           <div className="max-w-6xl mx-auto text-center">
-            <p className="text-gray-400">Part of the SoulConnect family</p>
+            <p className="text-gray-400">Part of the Soukconect family</p>
             <p className="mt-2">© 2024 Food Connect. All rights reserved.</p>
           </div>
         </footer>

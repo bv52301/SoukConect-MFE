@@ -5,7 +5,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'SoulConnect - More Than a Marketplace',
+  title: 'Soukconect - More Than a Marketplace',
   description: 'Your trusted marketplace for every need',
 };
 
@@ -23,7 +23,7 @@ export default function RootLayout({
             <div className="flex justify-between items-center h-16">
               <a href="/" className="flex items-center gap-2 font-bold text-xl">
                 <span className="text-2xl">✨</span>
-                <span>SoulConnect</span>
+                <span>Soukconect</span>
               </a>
               
               <div className="hidden md:flex items-center gap-6">
@@ -46,7 +46,7 @@ export default function RootLayout({
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
               <div>
-                <h3 className="font-bold text-lg mb-4">SoulConnect</h3>
+                <h3 className="font-bold text-lg mb-4">Soukconect</h3>
                 <p className="text-gray-400 text-sm">
                   Connecting passionate creators with discerning consumers
                 </p>
@@ -80,7 +80,7 @@ export default function RootLayout({
             </div>
 
             <div className="border-t border-gray-800 pt-8 text-center text-gray-400 text-sm">
-              <p>© 2024 SoulConnect. All rights reserved.</p>
+              <p>© 2025 Soukconect. All rights reserved.</p>
             </div>
           </div>
         </footer>

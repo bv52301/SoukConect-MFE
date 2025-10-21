@@ -1,69 +1,12 @@
+
+"use client";
+import { HeroCarousel } from './components/carousel';
+import BannerCMS from "./components/carousel-layout";
 export default function HomePage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-500 via-blue-400 to-cyan-400 py-20 px-4 overflow-hidden">
-        {/* Background decorations */}
-        <div className="absolute left-10 top-20 w-32 h-32 bg-white/20 rounded-full blur-3xl" />
-        <div className="absolute right-20 bottom-10 w-40 h-40 bg-white/10 rounded-full blur-3xl" />
-        
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          {/* Badge */}
-          <div className="inline-block bg-yellow-400 text-gray-900 px-4 py-1 rounded-full text-sm font-semibold mb-6">
-            SOULCONNECT PREMIER
-          </div>
-
-          {/* Main Heading */}
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
-            More Than a
-            <br />
-            <span className="text-yellow-300">Marketplace</span>
-          </h1>
-
-          {/* Subheading */}
-          <p className="text-white/90 text-lg max-w-2xl mx-auto mb-10">
-            Your trusted marketplace for every need - connecting passionate creators with
-            discerning consumers across the globe
-          </p>
-
-          {/* Feature Icons */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-10">
-            <div className="text-center">
-              <div className="bg-pink-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl">✓</span>
-              </div>
-              <h3 className="text-white font-semibold mb-1">Carefully Curated</h3>
-              <p className="text-white/80 text-sm">Handpicked quality vendors</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-green-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl">🌍</span>
-              </div>
-              <h3 className="text-white font-semibold mb-1">Global Community</h3>
-              <p className="text-white/80 text-sm">Worldwide connections</p>
-            </div>
-            
-            <div className="text-center">
-              <div className="bg-red-500 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
-                <span className="text-2xl">❤️</span>
-              </div>
-              <h3 className="text-white font-semibold mb-1">Authentic Stories</h3>
-              <p className="text-white/80 text-sm">Every product has meaning</p>
-            </div>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-8 py-3 rounded-lg transition">
-              Explore All Results
-            </button>
-            <button className="bg-white/20 hover:bg-white/30 text-white font-semibold px-8 py-3 rounded-lg backdrop-blur transition">
-              ⚡ Join Our Community
-            </button>
-          </div>
-        </div>
-      </section>
+      <BannerCMS />
 
       {/* Brand Family Section */}
       <section className="py-20 px-4 bg-gray-50">
