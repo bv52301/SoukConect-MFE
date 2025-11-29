@@ -5,3 +5,213 @@
  ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
  We detected multiple lockfiles and selected the directory of C:\Users\skart\devPavan\soukconect-mfe\pnpm-lock.yaml as the root directory.
  To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+ Detected additional lockfiles: 
+   * C:\Users\skart\devPavan\soukconect-mfe\apps\food-connect\package-lock.json
+
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.1.6:3001
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 5.3s
+ ○ Compiling / ...
+ ✓ Compiled / in 3.2s (649 modules)
+DEBUG - API_BASE_URL: http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com:8080
+ GET / 200 in 4515ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 910ms (413 modules)
+ GET /favicon.ico 200 in 1198ms
+DEBUG - API_BASE_URL: http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com:8080
+ GET / 200 in 477ms
+ GET / 200 in 342ms
+ GET / 200 in 172ms
+ ○ Compiling /chefs/[id] ...
+ ✓ Compiled /chefs/[id] in 1726ms (664 modules)
+ ✓ Compiled in 650ms (254 modules)
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at ChefPage (app\chefs\[id]\page.tsx:28:37)
+  26 |
+  27 | export default async function ChefPage({ params }: { params: { id: string } }) {
+> 28 |   const chef = await getChef(params.id);
+     |                                     ^
+  29 |
+  30 |   if (!chef) {
+  31 |     notFound();
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at Module.generateMetadata (app\chefs\[id]\page.tsx:15:37)
+  13 | // Generate metadata for SEO
+  14 | export async function generateMetadata({ params }: { params: { id: string } }) {
+> 15 |   const chef = await getChef(params.id);
+     |                                     ^
+  16 |   
+  17 |   if (!chef) {
+  18 |     return { title: 'Chef Not Found' };
+ GET /chefs/1 200 in 4359ms
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at ChefPage (app\chefs\[id]\page.tsx:28:37)
+  26 |
+  27 | export default async function ChefPage({ params }: { params: { id: string } }) {
+> 28 |   const chef = await getChef(params.id);
+     |                                     ^
+  29 |
+  30 |   if (!chef) {
+  31 |     notFound();
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at Module.generateMetadata (app\chefs\[id]\page.tsx:15:37)
+  13 | // Generate metadata for SEO
+  14 | export async function generateMetadata({ params }: { params: { id: string } }) {
+> 15 |   const chef = await getChef(params.id);
+     |                                     ^
+  16 |   
+  17 |   if (!chef) {
+  18 |     return { title: 'Chef Not Found' };
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at ChefPage (app\chefs\[id]\page.tsx:28:37)
+  26 |
+  27 | export default async function ChefPage({ params }: { params: { id: string } }) {
+> 28 |   const chef = await getChef(params.id);
+     |                                     ^
+  29 |
+  30 |   if (!chef) {
+  31 |     notFound();
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at Module.generateMetadata (app\chefs\[id]\page.tsx:15:37)
+  13 | // Generate metadata for SEO
+  14 | export async function generateMetadata({ params }: { params: { id: string } }) {
+> 15 |   const chef = await getChef(params.id);
+     |                                     ^
+  16 |   
+  17 |   if (!chef) {
+  18 |     return { title: 'Chef Not Found' };
+ GET /chefs/1 200 in 259ms
+ GET /chefs/1 200 in 196ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 929ms (655 modules)
+ GET /chefs 404 in 1410ms
+DEBUG - API_BASE_URL: http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com:8080
+ GET / 200 in 178ms
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at ChefPage (app\chefs\[id]\page.tsx:28:37)
+  26 |
+  27 | export default async function ChefPage({ params }: { params: { id: string } }) {
+> 28 |   const chef = await getChef(params.id);
+     |                                     ^
+  29 |
+  30 |   if (!chef) {
+  31 |     notFound();
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at Module.generateMetadata (app\chefs\[id]\page.tsx:15:37)
+  13 | // Generate metadata for SEO
+  14 | export async function generateMetadata({ params }: { params: { id: string } }) {
+> 15 |   const chef = await getChef(params.id);
+     |                                     ^
+  16 |   
+  17 |   if (!chef) {
+  18 |     return { title: 'Chef Not Found' };
+ GET /chefs/4 200 in 291ms
+ GET / 200 in 110ms
+ GET / 200 in 125ms
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at ChefPage (app\chefs\[id]\page.tsx:28:37)
+  26 |
+  27 | export default async function ChefPage({ params }: { params: { id: string } }) {
+> 28 |   const chef = await getChef(params.id);
+     |                                     ^
+  29 |
+  30 |   if (!chef) {
+  31 |     notFound();
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at Module.generateMetadata (app\chefs\[id]\page.tsx:15:37)
+  13 | // Generate metadata for SEO
+  14 | export async function generateMetadata({ params }: { params: { id: string } }) {
+> 15 |   const chef = await getChef(params.id);
+     |                                     ^
+  16 |   
+  17 |   if (!chef) {
+  18 |     return { title: 'Chef Not Found' };
+ GET /chefs/4 200 in 294ms
+ GET / 200 in 265ms
+ GET / 200 in 622ms
+ GET / 200 in 347ms
+ ✓ Compiled in 2.4s (254 modules)
+ ✓ Compiled in 360ms (254 modules)
+ ✓ Compiled in 750ms (254 modules)
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at ChefPage (app\chefs\[id]\page.tsx:28:37)
+  26 |
+  27 | export default async function ChefPage({ params }: { params: { id: string } }) {
+> 28 |   const chef = await getChef(params.id);
+     |                                     ^
+  29 |
+  30 |   if (!chef) {
+  31 |     notFound();
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at Module.generateMetadata (app\chefs\[id]\page.tsx:15:37)
+  13 | // Generate metadata for SEO
+  14 | export async function generateMetadata({ params }: { params: { id: string } }) {
+> 15 |   const chef = await getChef(params.id);
+     |                                     ^
+  16 |   
+  17 |   if (!chef) {
+  18 |     return { title: 'Chef Not Found' };
+ GET /chefs/4 200 in 2879ms
+ ✓ Compiled in 3.4s (664 modules)
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at ChefPage (app\chefs\[id]\page.tsx:28:37)
+  26 |
+  27 | export default async function ChefPage({ params }: { params: { id: string } }) {
+> 28 |   const chef = await getChef(params.id);
+     |                                     ^
+  29 |
+  30 |   if (!chef) {
+  31 |     notFound();
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at Module.generateMetadata (app\chefs\[id]\page.tsx:15:37)
+  13 | // Generate metadata for SEO
+  14 | export async function generateMetadata({ params }: { params: { id: string } }) {
+> 15 |   const chef = await getChef(params.id);
+     |                                     ^
+  16 |   
+  17 |   if (!chef) {
+  18 |     return { title: 'Chef Not Found' };
+ GET /chefs/4 200 in 2842ms
+DEBUG - API_BASE_URL: http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com:8080
+ GET / 200 in 831ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 1190ms (427 modules)
+ GET /favicon.ico 200 in 1635ms
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at ChefPage (app\chefs\[id]\page.tsx:28:37)
+  26 |
+  27 | export default async function ChefPage({ params }: { params: { id: string } }) {
+> 28 |   const chef = await getChef(params.id);
+     |                                     ^
+  29 |
+  30 |   if (!chef) {
+  31 |     notFound();
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at Module.generateMetadata (app\chefs\[id]\page.tsx:15:37)
+  13 | // Generate metadata for SEO
+  14 | export async function generateMetadata({ params }: { params: { id: string } }) {
+> 15 |   const chef = await getChef(params.id);
+     |                                     ^
+  16 |   
+  17 |   if (!chef) {
+  18 |     return { title: 'Chef Not Found' };
+ GET /chefs/4 200 in 536ms
+DEBUG - API_BASE_URL: http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com:8080
+ GET / 200 in 498ms
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at ChefPage (app\chefs\[id]\page.tsx:28:37)
+  26 |
+  27 | export default async function ChefPage({ params }: { params: { id: string } }) {
+> 28 |   const chef = await getChef(params.id);
+     |                                     ^
+  29 |
+  30 |   if (!chef) {
+  31 |     notFound();
+Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at Module.generateMetadata (app\chefs\[id]\page.tsx:15:37)
+  13 | // Generate metadata for SEO

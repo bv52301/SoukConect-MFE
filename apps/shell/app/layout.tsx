@@ -1,10 +1,13 @@
+"use client";
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import React, { useState } from 'react';
+import SignInModal from './components/login/signin';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: 'Soukconect - More Than a Marketplace',
   description: 'Your trusted marketplace for every need',
 };
@@ -14,6 +17,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [isSignInOpen, setIsSignInOpen] = useState(false);
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -32,7 +36,7 @@ export default function RootLayout({
                 <a href="/contact" className="hover:text-yellow-300 transition">Contact</a>
               </div>
 
-              <button className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition">
+              <button onClick={() => setIsSignInOpen(true)} className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition">
                 Join Now
               </button>
             </div>
@@ -84,6 +88,11 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+
+        <SignInModal
+          isOpen={isSignInOpen}
+          onClose={() => setIsSignInOpen(false)}
+        />
       </body>
     </html>
   );

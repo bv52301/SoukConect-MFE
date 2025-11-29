@@ -11,45 +11,11 @@
 
    ▲ Next.js 15.5.4
    - Local:        http://localhost:3000
+   - Network:      http://192.168.1.6:3000
 
  ✓ Starting...
- ✓ Ready in 3.6s
+ ✓ Ready in 5.2s
  ○ Compiling / ...
- ✓ Compiled / in 2.9s (588 modules)
- GET / 200 in 3621ms
- GET / 200 in 117ms
- ✓ Compiled /favicon.ico in 456ms (361 modules)
- GET /favicon.ico 200 in 675ms
- ✓ Compiled in 1294ms (588 modules)
- GET / 200 in 866ms
- ✓ Compiled in 1328ms (588 modules)
- GET / 200 in 276ms
- GET / 200 in 232ms
- ✓ Compiled /favicon.ico in 177ms (361 modules)
- GET /favicon.ico 200 in 370ms
- ✓ Compiled in 1114ms (605 modules)
- GET / 200 in 272ms
- ✓ Compiled in 1041ms (605 modules)
- GET / 200 in 198ms
- ✓ Compiled in 865ms (605 modules)
- GET / 200 in 204ms
- ✓ Compiled in 2.7s (588 modules)
- GET / 200 in 462ms
- GET / 200 in 308ms
- ✓ Compiled /favicon.ico in 223ms (361 modules)
- GET /favicon.ico 200 in 459ms
- ✓ Compiled in 933ms (605 modules)
- GET / 200 in 337ms
- GET / 200 in 240ms
- GET /favicon.ico 200 in 55ms
- ✓ Compiled in 741ms (605 modules)
- GET / 200 in 223ms
- ✓ Compiled in 555ms (605 modules)
- GET / 200 in 214ms
- GET / 200 in 210ms
- GET /favicon.ico 200 in 36ms
- ✓ Compiled in 1027ms (605 modules)
- GET / 200 in 258ms
- ✓ Compiled in 865ms (605 modules)
- GET / 200 in 231ms
- ✓ Compiled in 628ms (588 modules)
+ ✓ Compiled / in 2.6s (585 modules)
+ GET / 200 in 3510ms
+ ○ Compiling /favicon.ico ...
