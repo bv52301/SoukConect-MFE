@@ -1,17 +1,28 @@
-'use client';
+"use client";
 import { useState, useEffect } from 'react';
 import FoodCategories from '@/components/category';
 import { ChefCard } from '../components/chef-card';
 import { getTopChefs } from '../lib/data';
 import { VendorsSection } from '@/components/vendor-section';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 export default function FoodHomePage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [topChefs, setTopChefs] = useState<any[]>([]);
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     getTopChefs().then(setTopChefs);
   }, []);
+
+  // If a category is provided in the query params (e.g. /?category=Indian), open VendorsSection
+  useEffect(() => {
+    const cat = searchParams?.get?.('category');
+    if (cat) {
+      setSelectedCategory(cat);
+    }
+  }, [searchParams]);
 
   const handleCategoryClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
@@ -41,7 +52,15 @@ export default function FoodHomePage() {
 
         <VendorsSection
           category={selectedCategory}
-          onClose={() => setSelectedCategory(null)}
+          onClose={() => {
+            setSelectedCategory(null);
+            // remove category param from url
+            try {
+              router.push('/');
+            } catch (e) {
+              /* ignore */
+            }
+          }}
         />
       </main>
     );
@@ -50,7 +69,7 @@ export default function FoodHomePage() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero Banner */}
-      <section className="bg-gradient-to-r from-green-500 to-emerald-400 py-12 px-4">
+      {/* <section className="bg-gradient-to-r from-green-500 to-emerald-400 py-12 px-4">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
             🍕 Food Connect
@@ -59,7 +78,7 @@ export default function FoodHomePage() {
             Discover artisanal food producers and culinary masters
           </p>
         </div>
-      </section>
+      </section> */}
 
       {/* Categories with click handler */}
       <div onClick={handleCategoryClick}>
