@@ -65,7 +65,7 @@ export async function getAllChefIds(): Promise<string[]> {
 
 export async function getVendors(): Promise<Vendor[]> {
   const baseUrl =
-    'http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com:8080';
+    'http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com';
   const url = `${baseUrl}/vendors`;
 
   try {
@@ -130,7 +130,7 @@ export type Vendor = {
  */
 export async function getVendorDetails(vendorId: number): Promise<Vendor | null> {
   const baseUrl =
-    'http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com:8080';
+    'http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com';
   const url = `${baseUrl}/vendors/${encodeURIComponent(String(vendorId))}`;
 
   try {
@@ -203,7 +203,7 @@ export type Product = {
  */
 export async function getVendorProducts(vendorId: number): Promise<Product[] | null> {
   const baseUrl =
-    'http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com:8080';
+    'http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com';
   const url = `${baseUrl}/products/vendor/${encodeURIComponent(String(vendorId))}`;
 
   try {
