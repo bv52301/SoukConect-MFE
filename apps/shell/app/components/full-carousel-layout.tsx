@@ -70,11 +70,11 @@ export const FullCarousel = ({ items, config }: FullCarouselProps) => {
           )}
         </div>
       </div>
-      <button onClick={() => setIdx((p) => (p - 1 + items.length) % items.length)} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 p-3 rounded-full z-20">
-        <ChevronLeft size={32} />
+      <button onClick={() => setIdx((p) => (p - 1 + items.length) % items.length)} className="absolute -left-8 md:left-6 lg:left-12 top-1/2 -translate-y-1/2 bg-white bg-opacity-60 hover:bg-opacity-90 p-3 rounded-full z-20 shadow-lg transition-all hover:scale-110">
+        <ChevronLeft size={32} color="black" />
       </button>
-      <button onClick={() => setIdx((p) => (p + 1) % items.length)} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 hover:bg-opacity-75 p-3 rounded-full z-20">
-        <ChevronRight size={32} />
+      <button onClick={() => setIdx((p) => (p + 1) % items.length)} className="absolute -right-8 md:right-6 lg:right-12 top-1/2 -translate-y-1/2 bg-white bg-opacity-60 hover:bg-opacity-90 p-3 rounded-full z-20 shadow-lg transition-all hover:scale-110">
+        <ChevronRight size={32} color="black" />
       </button>
       <div className="flex justify-center gap-3 absolute bottom-4 left-0 right-0 z-20">
         {items.map((_, i) => (

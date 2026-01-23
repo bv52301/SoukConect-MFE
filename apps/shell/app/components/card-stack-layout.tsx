@@ -50,8 +50,8 @@ export const CardStackLayout = ({ carousel, cardStack, config }: CardStackLayout
           </div>
         </div>
         {item.emoji.display && <div className="absolute right-8 top-1/2 -translate-y-1/2 flex gap-4 text-7xl opacity-80"><div>{item.emoji.emoji1}</div><div className="opacity-60">{item.emoji.emoji2}</div></div>}
-        <button onClick={() => setIdx((p) => (p - 1 + carousel.items.length) % carousel.items.length)} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full z-20"><ChevronLeft size={28} /></button>
-        <button onClick={() => setIdx((p) => (p + 1) % carousel.items.length)} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full z-20"><ChevronRight size={28} /></button>
+        <button onClick={() => setIdx((p) => (p - 1 + carousel.items.length) % carousel.items.length)} className="hidden md:block absolute left-2 top-1/2 -translate-y-1/2 bg-white bg-opacity-60 hover:bg-opacity-90 p-2 rounded-full z-20 shadow-lg transition-all hover:scale-110"><ChevronLeft size={28} color="black" /></button>
+        <button onClick={() => setIdx((p) => (p + 1) % carousel.items.length)} className="hidden md:block absolute right-1/4 top-1/2 -translate-y-1/2 bg-white bg-opacity-60 hover:bg-opacity-90 p-2 rounded-full z-20 shadow-lg transition-all hover:scale-110"><ChevronRight size={28} color="black" /></button>
       </div>
       <div className="flex flex-col rounded-r-2xl" style={{ width: config.cardStackWidth + '%', minHeight: config.fixedHeight }}>
         {cardStack.items.map((card, cidx) => (

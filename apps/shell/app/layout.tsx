@@ -91,7 +91,7 @@ export default function RootLayout({
 
             {/* Bottom Footer */}
             <div className="border-t border-gray-800 pt-4 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
-              <p>© 2025 Soukconect. All rights reserved.</p>
+              <p>© {new Date().getFullYear()} Soukconect. All rights reserved.</p>
               <p className="text-gray-500 mt-2 md:mt-0">Made with ❤️ for creators</p>
             </div>
           </div>

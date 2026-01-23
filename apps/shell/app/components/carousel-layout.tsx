@@ -15,7 +15,7 @@ const bannerData = {
         {
           id: 1,
           badge: { text: 'SEASONAL SPECIAL', icon: '🎊', position: 'top-left', display: true },
-          title: { text: 'Holiday Party', position: 'left-center', display: true, fontSize: 'text-6xl', alignment: 'text-left' },
+          title: { text: 'Holiday Party', position: 'left-center', display: true, fontSize: 'text-5xl', alignment: 'text-left' },
           subtitle: { text: 'Planning Made Easy', position: 'left-center', display: true, fontSize: 'text-2xl', alignment: 'text-left' },
           description: { text: 'From gourmet catering to event planning, make your celebrations unforgettable', position: 'left-center', display: true, fontSize: 'text-lg', alignment: 'text-left' },
           primaryButton: { label: 'Plan Your Party', url: '/plan-party', position: 'left-center', display: true, style: 'bg-white text-gray-900' },
@@ -26,7 +26,7 @@ const bannerData = {
         {
           id: 2,
           badge: { text: 'LIMITED TIME', icon: '⏰', position: 'top-left', display: true },
-          title: { text: 'Summer Adventure', position: 'left-center', display: true, fontSize: 'text-6xl', alignment: 'text-left' },
+          title: { text: 'Summer Adventure', position: 'left-center', display: true, fontSize: 'text-5xl', alignment: 'text-left' },
           subtitle: { text: 'Explore the World', position: 'left-center', display: true, fontSize: 'text-2xl', alignment: 'text-left' },
           description: { text: 'Discover amazing travel packages and exclusive deals for your vacation', position: 'left-center', display: true, fontSize: 'text-lg', alignment: 'text-left' },
           primaryButton: { label: 'Book Now', url: '/book-travel', position: 'left-center', display: true, style: 'bg-white text-gray-900' },
@@ -46,7 +46,7 @@ const bannerData = {
           {
             id: 1,
             badge: { text: 'HOT DEAL', icon: '🔥', position: 'top-center', display: true },
-            title: { text: 'MEGA DEAL', position: 'center', display: true, fontSize: 'text-4xl', alignment: 'text-center' },
+            title: { text: 'MEGA DEAL', position: 'center', display: true, fontSize: 'text-3xl', alignment: 'text-center' },
             subtitle: { text: 'Don\'t miss out', position: 'center', display: true, fontSize: 'text-lg', alignment: 'text-center' },
             description: { text: 'Exclusive offers just for you', position: 'center', display: true, fontSize: 'text-sm', alignment: 'text-center' },
             primaryButton: { label: 'SHOP', url: '/shop-mega', position: 'bottom-center', display: true, style: 'bg-white text-blue-600' },
@@ -69,7 +69,7 @@ const bannerData = {
           {
             id: 1,
             badge: { text: 'VIP EXCLUSIVE', icon: '👑', position: 'top-left', display: true },
-            title: { text: 'PREMIUM COLLECTION', position: 'left-center', display: true, fontSize: 'text-5xl', alignment: 'text-left' },
+            title: { text: 'PREMIUM COLLECTION', position: 'left-center', display: true, fontSize: 'text-4xl', alignment: 'text-left' },
             subtitle: { text: 'Exclusive deals for VIP members', position: 'left-center', display: true, fontSize: 'text-lg', alignment: 'text-left' },
             description: { text: 'Premium products curated just for you', position: 'left-center', display: true, fontSize: 'text-sm', alignment: 'text-left' },
             primaryButton: { label: 'SHOP NOW', url: '/shop-premium', position: 'left-bottom', display: true, style: 'bg-white text-gray-900' },
@@ -100,7 +100,7 @@ const bannerData = {
           {
             id: 1,
             badge: { text: 'OCTOBER SPECIAL', icon: '🎃', position: 'top-left', display: true },
-            title: { text: 'TREAT YOURSELF', position: 'left-center', display: true, fontSize: 'text-5xl', alignment: 'text-left' },
+            title: { text: 'TREAT YOURSELF', position: 'left-center', display: true, fontSize: 'text-4xl', alignment: 'text-left' },
             subtitle: { text: 'Spooky savings await', position: 'left-center', display: true, fontSize: 'text-lg', alignment: 'text-left' },
             description: { text: 'Halloween collection offers', position: 'left-center', display: true, fontSize: 'text-sm', alignment: 'text-left' },
             primaryButton: { label: 'SHOP NOW', url: '/shop-october', position: 'left-bottom', display: true, style: 'bg-white text-gray-900' },
@@ -111,7 +111,7 @@ const bannerData = {
           {
             id: 2,
             badge: { text: 'FLASH SALE', icon: '⚡', position: 'top-left', display: true },
-            title: { text: 'FLASH SALE', position: 'left-center', display: true, fontSize: 'text-5xl', alignment: 'text-left' },
+            title: { text: 'FLASH SALE', position: 'left-center', display: true, fontSize: 'text-4xl', alignment: 'text-left' },
             subtitle: { text: 'Limited time offers', position: 'left-center', display: true, fontSize: 'text-lg', alignment: 'text-left' },
             description: { text: 'Grab these deals now', position: 'left-center', display: true, fontSize: 'text-sm', alignment: 'text-left' },
             primaryButton: { label: 'SHOP NOW', url: '/shop-flash', position: 'left-bottom', display: true, style: 'bg-white text-gray-900' },

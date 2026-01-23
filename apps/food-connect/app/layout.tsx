@@ -27,6 +27,7 @@ export default function RootLayout({
               </Link>
               
               <div className="hidden md:flex items-center gap-6">
+                <Link href="http://localhost:3000" className="hover:text-yellow-300 transition">Home</Link>
                 <Link href="/" className="hover:text-yellow-300 transition">Browse</Link>
                 <Link href="/chefs" className="hover:text-yellow-300 transition">Chefs</Link>
                 <Link href="/cart" className="hover:text-yellow-300 transition">Cart</Link>
@@ -90,7 +91,7 @@ export default function RootLayout({
 
             {/* Bottom Footer */}
             <div className="border-t border-gray-800 pt-4 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
-              <p>© 2025 Food Connect. All rights reserved.</p>
+              <p>© {new Date().getFullYear()} Food Connect. All rights reserved.</p>
               <p className="text-gray-500 mt-2 md:mt-0">Freshly prepared, delivered with 🍛 love</p>
             </div>
           </div>
