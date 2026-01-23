@@ -1,16 +1,11 @@
 "use client";
-import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import Link from 'next/link';
 import React, { useState } from 'react';
 import SignInModal from './components/login/signin';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
-
-const metadata: Metadata = {
-  title: 'Soukconect - More Than a Marketplace',
-  description: 'Your trusted marketplace for every need',
-};
 
 export default function RootLayout({
   children,
@@ -25,15 +20,15 @@ export default function RootLayout({
         <nav className="bg-blue-600 text-white shadow-lg">
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex justify-between items-center h-16">
-              <a href="/" className="flex items-center gap-2 font-bold text-xl">
+              <Link href="/" className="flex items-center gap-2 font-bold text-xl">
                 <span className="text-2xl">✨</span>
                 <span>Soukconect</span>
-              </a>
+              </Link>
               
               <div className="hidden md:flex items-center gap-6">
-                <a href="/" className="hover:text-yellow-300 transition">Home</a>
-                <a href="/about" className="hover:text-yellow-300 transition">About</a>
-                <a href="/contact" className="hover:text-yellow-300 transition">Contact</a>
+                <Link href="/" className="hover:text-yellow-300 transition">Home</Link>
+                <Link href="/about" className="hover:text-yellow-300 transition">About</Link>
+                <Link href="/contact" className="hover:text-yellow-300 transition">Contact</Link>
               </div>
 
               <button onClick={() => setIsSignInOpen(true)} className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition">

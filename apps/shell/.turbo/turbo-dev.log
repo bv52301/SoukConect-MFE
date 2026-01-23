@@ -5,3 +5,30 @@
  ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
  We detected multiple lockfiles and selected the directory of C:\Users\skart\devPavan\soukconect-mfe\pnpm-lock.yaml as the root directory.
  To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+ Detected additional lockfiles: 
+   * C:\Users\skart\devPavan\soukconect-mfe\apps\shell\package-lock.json
+
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.8:3000
+
+ ✓ Starting...
+ ✓ Ready in 6.1s
+ ○ Compiling / ...
+ ✓ Compiled / in 11s (608 modules)
+ GET / 200 in 11923ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 641ms (366 modules)
+ GET /favicon.ico 200 in 927ms
+ GET / 200 in 566ms
+ ✓ Compiled in 1131ms (599 modules)
+ ⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.8:3000
+
+ ✓ Starting...
+ ✓ Ready in 6.2s
+ ⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+   ▲ Next.js 15.5.4

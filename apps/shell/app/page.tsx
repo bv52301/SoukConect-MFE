@@ -1,6 +1,5 @@
 
 "use client";
-import { HeroCarousel } from './components/carousel';
 import BannerCMS from "./components/carousel-layout";
 export default function HomePage() {
   return (

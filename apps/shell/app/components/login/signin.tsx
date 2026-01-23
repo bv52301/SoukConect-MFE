@@ -101,7 +101,7 @@ export default function SignInModal({ isOpen = true, onClose = () => {} }) {
 
         {/* Register Link */}
         <p className="text-center text-gray-600 text-sm mb-4">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <button className="font-bold text-gray-900 hover:text-blue-900 transition-colors">
             Register Here
           </button>

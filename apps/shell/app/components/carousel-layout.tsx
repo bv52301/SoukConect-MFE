@@ -151,7 +151,68 @@ const bannerData = {
   ]
 };
 
-const Banner = ({ banner }) => {
+interface SidebarItem {
+  label: string;
+  icon: string;
+  url: string;
+}
+
+interface Sidebar {
+  title: string;
+  bgColor: string;
+  icon: string;
+  items: SidebarItem[];
+}
+
+interface Card {
+  badge: { text: string; icon: string; position?: string; display: boolean };
+  title: { text: string; position?: string; display: boolean; fontSize: string; alignment?: string };
+  subtitle: { text: string; position?: string; display: boolean; fontSize: string; alignment?: string };
+  description: { text: string; position?: string; display: boolean; fontSize: string; alignment?: string };
+  primaryButton: { label: string; url: string; position?: string; display: boolean; style: string };
+  secondaryButton: { label: string; url: string; position?: string; display: boolean; style: string };
+  emoji: { emoji1: string; emoji2?: string; emoji3?: string; position?: string; display: boolean; layout?: string };
+  bgGradient: string;
+}
+
+interface BannerProps {
+  banner: {
+    layout: string;
+    items?: CarouselItem[];
+    carouselConfig?: { fixedHeight: number };
+    carousel?: { items: CarouselItem[] };
+    leftSidebar?: Sidebar;
+    rightSidebar?: Sidebar;
+    tripleConfig?: { fixedHeight: number; leftWidth: number; carouselWidth: number; rightWidth: number };
+    singleCard?: Card;
+    cardStack?: { items: CardStackItem[] };
+    splitConfig?: { fixedHeight: number; carouselWidth: number; cardStackWidth: number };
+  };
+}
+
+interface CardStackItem {
+  id: string | number;
+  bgGradient: string;
+  badge: { display: boolean; icon: string; text: string };
+  emoji: { display: boolean; emoji1: string };
+  title: { display: boolean; fontSize: string; text: string };
+  subtitle: { display: boolean; fontSize: string; text: string };
+  primaryButton: { display: boolean; url: string; label: string; style: string };
+}
+
+interface CarouselItem {
+  id?: number | string;
+  bgGradient: string;
+  badge?: { display: boolean; icon: string; text: string; position?: string };
+  title: { display: boolean; fontSize: string; text: string; position?: string; alignment?: string };
+  subtitle: { display: boolean; fontSize: string; text: string; position?: string; alignment?: string };
+  description: { display: boolean; fontSize: string; text: string; position?: string; alignment?: string };
+  primaryButton: { display: boolean; url: string; label: string; style: string; position?: string };
+  secondaryButton: { display: boolean; url: string; label: string; style: string; position?: string };
+  emoji: { display: boolean; emoji1: string; emoji2: string; emoji3?: string; position?: string; layout?: string };
+}
+
+const Banner = ({ banner }: BannerProps) => {
   if (banner.layout === 'full-carousel') {
     return <FullCarousel items={banner.items} config={banner.carouselConfig} />;
   }
@@ -162,7 +223,9 @@ const Banner = ({ banner }) => {
     return <SingleCardLayout carousel={banner.carousel} singleCard={banner.singleCard} config={banner.splitConfig} />;
   }
   if (banner.layout === 'carousel-with-cards') {
-    return <CardStackLayout carousel={banner.carousel} cardStack={banner.cardStack} config={banner.splitConfig} />;
+    if (banner.carousel && banner.cardStack && banner.splitConfig) {
+      return <CardStackLayout carousel={banner.carousel} cardStack={banner.cardStack} config={banner.splitConfig} />;
+    }
   }
   return null;
 };
