@@ -27,11 +27,12 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
 }
 
 interface VendorPageProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export default async function VendorPage({ params }: VendorPageProps) {
-  const vendorId = parseInt(params.id, 10);
+  const { id } = await params;
+  const vendorId = parseInt(id, 10);
   if (Number.isNaN(vendorId)) {
     notFound();
   }
@@ -52,10 +53,19 @@ export default async function VendorPage({ params }: VendorPageProps) {
 
   const randomBg = bgColors[Number(chef.vendorId) % bgColors.length];
 
+  // Normalize chef object to remove null values
+  const normalizedChef = {
+    id: chef.vendorId,
+    name: chef.name,
+    description: chef.description ?? undefined,
+    avatar: chef.image ?? undefined,
+    supportedCategories: chef.supportedCategories,
+  };
+
   // Pass server-fetched data to client component
   return (
     <CartWrapper 
-      chef={chef} 
+      chef={normalizedChef} 
       sampleProducts={sampleProducts ?? []} 
       randomBg={randomBg} 
     />

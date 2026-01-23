@@ -12,9 +12,23 @@ interface CartItem {
   vendorId: number;
 }
 
+interface ProductType {
+  id: number;
+  name: string;
+  price: number;
+  vendorId: number;
+}
+
 interface CartWrapperProps {
-  chef: any;
-  sampleProducts: any[] | null;
+  chef: {
+    id?: number;
+    name?: string;
+    description?: string;
+    avatar?: string;
+    supportedCategories?: string[];
+    [key: string]: unknown;
+  };
+  sampleProducts: Record<string, unknown>[] | null;
   randomBg: string;
 }
 
@@ -22,7 +36,7 @@ export default function CartWrapper({ chef, sampleProducts, randomBg }: CartWrap
   const [cart, setCart] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
 
-  const handleAddToCart = (product: any) => {
+  const handleAddToCart = (product: ProductType) => {
     setCart((prevCart) => {
       // Check if product already exists in cart
       const existingItem = prevCart.find((item) => item.productId === product.id);
@@ -198,7 +212,7 @@ export default function CartWrapper({ chef, sampleProducts, randomBg }: CartWrap
 
                 {/* Tags */}
                 <div className="flex flex-wrap gap-2">
-                  {chef?.supportedCategories?.map((tag: any) => (
+                  {chef?.supportedCategories?.map((tag: string) => (
                     <span
                       key={tag}
                       className="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm"

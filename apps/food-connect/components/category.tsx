@@ -83,7 +83,7 @@ export default function FoodCategories() {
           <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex-1">
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-            There's something for everyone!
+            There&apos;s something for everyone!
           </h2>
             </div>
 
@@ -109,7 +109,7 @@ export default function FoodCategories() {
 
           {results !== null && (
             <div className="mb-6">
-          <h4 className="text-lg font-medium mb-3">Vendors matching "{query}"</h4>
+          <h4 className="text-lg font-medium mb-3">Vendors matching &quot;{query}&quot;</h4>
 
           {results.length === 0 ? (
             <div className="text-sm text-gray-500">No vendors found.</div>

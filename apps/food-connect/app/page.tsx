@@ -5,10 +5,11 @@ import { ChefCard } from '../components/chef-card';
 import { getTopChefs } from '../lib/data';
 import { VendorsSection } from '@/components/vendor-section';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { Chef } from '@soukconect/types';
 
 export default function FoodHomePage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [topChefs, setTopChefs] = useState<any[]>([]);
+  const [topChefs, setTopChefs] = useState<Chef[]>([]);
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -24,10 +25,10 @@ export default function FoodHomePage() {
     }
   }, [searchParams]);
 
-  const handleCategoryClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.stopPropagation();
+  const handleCategoryClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.stopPropagation();
     
-    const target = e.target as HTMLElement;
+    const target = event.target as HTMLElement;
     const categoryElement = target.closest('[data-category]') as HTMLElement;
     
     if (categoryElement) {
@@ -57,7 +58,7 @@ export default function FoodHomePage() {
             // remove category param from url
             try {
               router.push('/');
-            } catch (e) {
+            } catch {
               /* ignore */
             }
           }}

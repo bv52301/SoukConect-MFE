@@ -1,6 +1,7 @@
 # Dependencies
 node_modules/
 .pnpm-store/
+package-lock.json
 
 # Next.js
 .next/
@@ -27,6 +28,8 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+.turbo/
 
 # Testing
 coverage/

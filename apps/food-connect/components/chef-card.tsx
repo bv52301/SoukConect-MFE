@@ -53,7 +53,7 @@ export function ChefCard({ chef }: ChefCardProps) {
 
         {/* Tags */}
         <div className="flex flex-wrap gap-2 mb-4">
-          {chef.tags.slice(0, 3).map((tag:any) => (
+          {chef.tags.slice(0, 3).map((tag: string) => (
             <span
               key={tag}
               className="bg-blue-100 text-blue-700 text-xs px-3 py-1 rounded-full"
