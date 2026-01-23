@@ -10,7 +10,7 @@ const bannerData = {
       id: 'full-carousel',
       type: 'carousel',
       layout: 'full-carousel',
-      carouselConfig: { fixedHeight: 500 },
+      carouselConfig: { fixedHeight: 380 },
       items: [
         {
           id: 1,
@@ -40,7 +40,7 @@ const bannerData = {
       id: 'carousel-center-dual-sidebar',
       type: 'split-layout',
       layout: 'carousel-center-dual-sidebar',
-      tripleConfig: { fixedHeight: 450, leftWidth: 25, carouselWidth: 50, rightWidth: 25 },
+      tripleConfig: { fixedHeight: 340, leftWidth: 25, carouselWidth: 50, rightWidth: 25 },
       carousel: {
         items: [
           {
@@ -63,7 +63,7 @@ const bannerData = {
       id: 'carousel-with-single-card',
       type: 'split-layout',
       layout: 'carousel-with-single-card',
-      splitConfig: { fixedHeight: 450, carouselWidth: 75, cardStackWidth: 25 },
+      splitConfig: { fixedHeight: 340, carouselWidth: 75, cardStackWidth: 25 },
       carousel: {
         items: [
           {
@@ -94,7 +94,7 @@ const bannerData = {
       id: 'carousel-with-sidebar',
       type: 'split-layout',
       layout: 'carousel-with-cards',
-      splitConfig: { fixedHeight: 450, carouselWidth: 75, cardStackWidth: 25 },
+      splitConfig: { fixedHeight: 340, carouselWidth: 75, cardStackWidth: 25 },
       carousel: {
         items: [
           {

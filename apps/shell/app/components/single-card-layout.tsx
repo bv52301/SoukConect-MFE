@@ -47,8 +47,8 @@ export const SingleCardLayout = ({ carousel, singleCard, config }: SingleCardLay
   }
   const item = carousel.items[idx];
   return (
-    <div className="flex w-full" style={{ minHeight: config.fixedHeight }}>
-      <div className="relative overflow-hidden flex items-center justify-center" style={{ width: config.carouselWidth + '%', background: item.bgGradient, minHeight: config.fixedHeight }}>
+    <div className="flex w-full rounded-2xl overflow-hidden" style={{ minHeight: config.fixedHeight }}>
+      <div className="relative overflow-hidden flex items-center justify-center rounded-l-2xl" style={{ width: config.carouselWidth + '%', background: item.bgGradient, minHeight: config.fixedHeight }}>
         <div className="px-12 z-10 text-center md:text-left w-full">
           {item.badge?.display && <div className="inline-flex items-center gap-2 mb-4 bg-white bg-opacity-20 px-4 py-2 rounded-full"><span className="text-xl">{item.badge.icon}</span><span className="text-sm font-bold">{item.badge.text}</span></div>}
           {item.title.display && <h1 className={`${item.title.fontSize} font-bold mb-4`} style={{ color: '#fff' }}>{item.title.text}</h1>}
@@ -63,7 +63,7 @@ export const SingleCardLayout = ({ carousel, singleCard, config }: SingleCardLay
         <button onClick={() => setIdx((p) => (p - 1 + carousel.items.length) % carousel.items.length)} className="absolute left-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full z-20"><ChevronLeft size={28} /></button>
         <button onClick={() => setIdx((p) => (p + 1) % carousel.items.length)} className="absolute right-4 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full z-20"><ChevronRight size={28} /></button>
       </div>
-      <div className="flex items-center justify-center p-6" style={{ width: config.cardStackWidth + '%', background: singleCard.bgGradient, minHeight: config.fixedHeight }}>
+      <div className="flex items-center justify-center p-6 rounded-r-2xl" style={{ width: config.cardStackWidth + '%', background: singleCard.bgGradient, minHeight: config.fixedHeight }}>
         <div className="text-center text-white">
           {singleCard.badge?.display && <div className="inline-flex items-center gap-2 mb-3 bg-white bg-opacity-20 px-3 py-1 rounded-full"><span className="text-lg">{singleCard.badge.icon}</span><span className="text-xs font-bold">{singleCard.badge.text}</span></div>}
           {singleCard.emoji?.display && <div className="text-6xl mb-3">{singleCard.emoji.emoji1}</div>}

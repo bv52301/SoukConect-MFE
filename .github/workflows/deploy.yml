@@ -1,0 +1,65 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - main
+      - production
+  workflow_dispatch:  # Manual trigger option
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build applications
+        run: pnpm run build
+
+      - name: Deploy to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "apps/shell/.next,apps/shell/public,apps/shell/package.json,apps/shell/next.config.ts,apps/food-connect/.next,apps/food-connect/public,apps/food-connect/package.json,apps/food-connect/next.config.ts"
+          target: "/var/www/soukconect"
+          strip_components: 1
+
+      - name: Install dependencies and restart apps
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            cd /var/www/soukconect/shell
+            pnpm install --prod
+            pm2 restart shell || pm2 start ecosystem.config.js --name shell
+
+            cd /var/www/soukconect/food-connect
+            pnpm install --prod
+            pm2 restart food-connect || pm2 start ecosystem.config.js --name food-connect
+
+      - name: Notify deployment
+        if: success()
+        run: echo "✅ Deployment successful!"
+
+      - name: Notify failure
+        if: failure()
+        run: echo "❌ Deployment failed!"

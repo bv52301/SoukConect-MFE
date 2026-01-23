@@ -49,10 +49,50 @@ export default function RootLayout({
         
         {children}
 
-        <footer className="bg-gray-900 text-white py-12 px-4 mt-20">
-          <div className="max-w-6xl mx-auto text-center">
-            <p className="text-gray-400">Part of the Soukconect family</p>
-            <p className="mt-2">© 2024 Food Connect. All rights reserved.</p>
+        <footer className="bg-gray-900 text-white py-8 px-4 mt-12">
+          <div className="max-w-6xl mx-auto">
+            {/* Main Footer Content */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-6">
+              <div>
+                <h3 className="font-bold text-base mb-3 text-orange-400">Food Connect</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">
+                  Artisanal food producers, traditional recipes, and culinary artistry
+                </p>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold text-sm mb-2 text-gray-200">Browse</h4>
+                <ul className="space-y-2 text-gray-400 text-sm">
+                  <li><a href="#" className="hover:text-orange-400 transition">Chefs</a></li>
+                  <li><a href="#" className="hover:text-orange-400 transition">Categories</a></li>
+                  <li><a href="#" className="hover:text-orange-400 transition">Orders</a></li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-sm mb-2 text-gray-200">Support</h4>
+                <ul className="space-y-2 text-gray-400 text-sm">
+                  <li><a href="#" className="hover:text-orange-400 transition">Help</a></li>
+                  <li><a href="#" className="hover:text-orange-400 transition">Contact</a></li>
+                  <li><a href="#" className="hover:text-orange-400 transition">Feedback</a></li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-semibold text-sm mb-2 text-gray-200">Connect</h4>
+                <ul className="space-y-2 text-gray-400 text-sm">
+                  <li><a href="#" className="hover:text-orange-400 transition">Twitter</a></li>
+                  <li><a href="#" className="hover:text-orange-400 transition">Facebook</a></li>
+                  <li><a href="#" className="hover:text-orange-400 transition">Instagram</a></li>
+                </ul>
+              </div>
+            </div>
+
+            {/* Bottom Footer */}
+            <div className="border-t border-gray-800 pt-4 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
+              <p>© 2025 Food Connect. All rights reserved.</p>
+              <p className="text-gray-500 mt-2 md:mt-0">Freshly prepared, delivered with 🍛 love</p>
+            </div>
           </div>
         </footer>
       </body>

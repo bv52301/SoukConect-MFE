@@ -50,16 +50,16 @@ export const DualSidebarCarousel = ({ carousel, leftSidebar, rightSidebar, confi
   }
   const item = carousel.items[idx];
   return (
-    <div className="flex w-full" style={{ minHeight: config.fixedHeight }}>
-      <div className="flex flex-col items-center justify-center p-6" style={{ width: config.leftWidth + '%', backgroundColor: leftSidebar.bgColor, minHeight: config.fixedHeight }}>
+    <div className="flex w-full rounded-2xl overflow-hidden" style={{ minHeight: config.fixedHeight }}>
+      <div className="flex flex-col items-center justify-center p-4 rounded-l-2xl" style={{ width: config.leftWidth + '%', backgroundColor: leftSidebar.bgColor, minHeight: config.fixedHeight }}>
         <div className="text-center text-white">
-          <div className="text-5xl mb-3">{leftSidebar.icon}</div>
-          <h2 className="text-2xl font-bold mb-6">{leftSidebar.title}</h2>
-          <div className="space-y-4">
+          <div className="text-4xl mb-2">{leftSidebar.icon}</div>
+          <h2 className="text-lg font-bold mb-4">{leftSidebar.title}</h2>
+          <div className="space-y-3">
             {leftSidebar.items.map((itm, i) => (
-              <a key={i} href={itm.url} className="flex items-center justify-center gap-2 hover:opacity-80">
-                <span className="text-2xl">{itm.icon}</span>
-                <span className="text-sm font-semibold">{itm.label}</span>
+              <a key={i} href={itm.url} className="flex items-center justify-center gap-2 hover:opacity-80 text-xs">
+                <span className="text-xl">{itm.icon}</span>
+                <span className="font-semibold">{itm.label}</span>
               </a>
             ))}
           </div>
@@ -77,15 +77,15 @@ export const DualSidebarCarousel = ({ carousel, leftSidebar, rightSidebar, confi
         <button onClick={() => setIdx((p) => (p - 1 + carousel.items.length) % carousel.items.length)} className="absolute left-2 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full z-20"><ChevronLeft size={24} /></button>
         <button onClick={() => setIdx((p) => (p + 1) % carousel.items.length)} className="absolute right-2 top-1/2 -translate-y-1/2 bg-white bg-opacity-50 p-2 rounded-full z-20"><ChevronRight size={24} /></button>
       </div>
-      <div className="flex flex-col items-center justify-center p-6" style={{ width: config.rightWidth + '%', backgroundColor: rightSidebar.bgColor, minHeight: config.fixedHeight }}>
+      <div className="flex flex-col items-center justify-center p-4 rounded-r-2xl" style={{ width: config.rightWidth + '%', backgroundColor: rightSidebar.bgColor, minHeight: config.fixedHeight }}>
         <div className="text-center text-white">
-          <div className="text-5xl mb-3">{rightSidebar.icon}</div>
-          <h2 className="text-2xl font-bold mb-6">{rightSidebar.title}</h2>
-          <div className="space-y-4">
+          <div className="text-4xl mb-2">{rightSidebar.icon}</div>
+          <h2 className="text-lg font-bold mb-4">{rightSidebar.title}</h2>
+          <div className="space-y-3">
             {rightSidebar.items.map((itm, i) => (
-              <a key={i} href={itm.url} className="flex items-center justify-center gap-2 hover:opacity-80">
-                <span className="text-2xl">{itm.icon}</span>
-                <span className="text-sm font-semibold">{itm.label}</span>
+              <a key={i} href={itm.url} className="flex items-center justify-center gap-2 hover:opacity-80 text-xs">
+                <span className="text-xl">{itm.icon}</span>
+                <span className="font-semibold">{itm.label}</span>
               </a>
             ))}
           </div>

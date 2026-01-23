@@ -8,7 +8,7 @@ export default function HomePage() {
       <BannerCMS />
 
       {/* Brand Family Section */}
-      <section className="py-20 px-4 bg-gray-50">
+      <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-4">Our Brand Family</h2>
           <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
@@ -66,20 +66,37 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-blue-500 to-cyan-400 py-16 px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">Ready to Connect?</h2>
-          <p className="text-white/90 text-lg mb-8">
-            Join our community of creators and consumers building authentic connections
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-8 py-3 rounded-lg transition">
-              Become a Vendor
-            </button>
-            <button className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-3 rounded-lg transition">
-              Start Shopping
-            </button>
+      <section className="bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500 py-8 px-4 mt-12">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+            {/* Left Stats */}
+            <div className="text-white">
+              <p className="text-3xl font-bold">50K+</p>
+              <p className="text-sm text-white/80">Active Vendors</p>
+            </div>
+
+            {/* Center CTA */}
+            <div className="text-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Ready to Connect?</h2>
+              <p className="text-white/90 text-sm mb-5">
+                Join thousands building authentic connections today
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <button className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold px-6 py-2.5 rounded-lg transition text-sm">
+                  Become a Vendor
+                </button>
+                <button className="bg-white text-blue-600 hover:bg-gray-100 font-semibold px-6 py-2.5 rounded-lg transition text-sm">
+                  Start Shopping
+                </button>
+              </div>
+            </div>
+
+            {/* Right Stats */}
+            <div className="text-white text-right">
+              <p className="text-3xl font-bold">100K+</p>
+              <p className="text-sm text-white/80">Happy Customers</p>
+            </div>
           </div>
         </div>
       </section>
