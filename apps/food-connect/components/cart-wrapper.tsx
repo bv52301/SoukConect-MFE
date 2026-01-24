@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { VendorProducts } from '@/components/vendor-products';
+import { CheckoutModal, type CheckoutItem } from '@/components/checkout-modal';
 
 interface CartItem {
   productId: number;
@@ -35,16 +36,24 @@ interface CartWrapperProps {
 export default function CartWrapper({ chef, sampleProducts, randomBg }: CartWrapperProps) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
 
-  const handleAddToCart = (product: ProductType) => {
+  const handleAddToCart = (product: ProductType | any) => {
+    const safeProduct = {
+      id: product.id || 0,
+      name: product.name || '',
+      price: product.price || 0,
+      vendorId: product.vendorId || chef.id || 0,
+    };
+
     setCart((prevCart) => {
       // Check if product already exists in cart
-      const existingItem = prevCart.find((item) => item.productId === product.id);
+      const existingItem = prevCart.find((item) => item.productId === safeProduct.id);
 
       if (existingItem) {
         // Increase quantity
         return prevCart.map((item) =>
-          item.productId === product.id
+          item.productId === safeProduct.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
@@ -53,18 +62,18 @@ export default function CartWrapper({ chef, sampleProducts, randomBg }: CartWrap
         return [
           ...prevCart,
           {
-            productId: product.id,
-            name: product.name,
-            price: product.price,
+            productId: safeProduct.id,
+            name: safeProduct.name,
+            price: safeProduct.price,
             quantity: 1,
-            vendorId: product.vendorId,
+            vendorId: safeProduct.vendorId,
           },
         ];
       }
     });
 
     // Show success feedback
-    console.log(`Added ${product.name} to cart`);
+    console.log(`Added ${safeProduct.name} to cart`);
   };
 
   const handleRemoveFromCart = (productId: number) => {
@@ -159,7 +168,13 @@ export default function CartWrapper({ chef, sampleProducts, randomBg }: CartWrap
                 <span>Total:</span>
                 <span>${cartTotal.toFixed(2)}</span>
               </div>
-              <button className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition">
+              <button
+                onClick={() => {
+                  setShowCheckout(true);
+                  setShowCart(false);
+                }}
+                className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg transition"
+              >
                 Proceed to Checkout
               </button>
             </div>
@@ -201,10 +216,10 @@ export default function CartWrapper({ chef, sampleProducts, randomBg }: CartWrap
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h1 className="text-4xl font-bold mb-2">{chef.name}</h1>
-                    <p className="text-gray-600 text-lg">{chef.address1}</p>
+                    <p className="text-gray-600 text-lg">{chef.address1 as string}</p>
                   </div>
                   <div className="bg-yellow-400 text-gray-900 font-bold px-4 py-2 rounded-full">
-                    ⭐ {chef.address2}
+                    ⭐ {chef.address2 as string}
                   </div>
                 </div>
 
@@ -234,6 +249,18 @@ export default function CartWrapper({ chef, sampleProducts, randomBg }: CartWrap
           </div>
         </section>
       </main>
+
+      {/* Checkout Modal */}
+      <CheckoutModal
+        isOpen={showCheckout}
+        onClose={() => setShowCheckout(false)}
+        items={cart as CheckoutItem[]}
+        total={cartTotal}
+        onCheckoutSuccess={() => {
+          setCart([]);
+          setShowCheckout(false);
+        }}
+      />
     </>
   );
 }

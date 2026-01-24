@@ -61,7 +61,8 @@ export default function FoodCategories() {
   if (error) return <div className="py-12 px-4 text-center text-red-600">{error}</div>;
 
   return (
-    <section className="py-12 px-4 max-w-7xl mx-auto">
+    <section className="py-12 px-4 bg-gray-50">
+      <div className="max-w-6xl mx-auto">
       {(() => {
         function SearchWidget() {
           const [query, setQuery] = useState('');
@@ -82,7 +83,7 @@ export default function FoodCategories() {
         <>
           <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex-1">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+          <h2 className="text-3xl font-bold text-gray-900">
             There&apos;s something for everyone!
           </h2>
             </div>
@@ -119,23 +120,23 @@ export default function FoodCategories() {
             const hasImage = v.imageUrl && v.imageUrl !== 'None';
             const [c1, c2] = getColorForCategory(v.category);
             return (
-              <div key={`${v.category}-${i}`} className="group cursor-pointer">
-                <div className="relative aspect-square rounded-2xl overflow-hidden mb-3 shadow-md hover:shadow-xl transition-shadow duration-300">
+              <div key={`${v.category}-${i}`} className="group cursor-pointer bg-white rounded-2xl p-4 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 transform">
+                <div className="relative aspect-square rounded-xl overflow-hidden mb-3">
               {hasImage ? (
                 <img src={v.imageUrl} alt={v.category} className="w-full h-full object-cover" />
               ) : (
                 <div
-                  className="absolute inset-0 flex items-center justify-center text-white font-bold text-lg"
+                  className="absolute inset-0 flex items-center justify-center text-white font-bold text-2xl"
                   style={{ background: `linear-gradient(135deg, ${c1} 0%, ${c2} 100%)` }}
                 >
-                  <span className="drop-shadow-md">{v.category}</span>
+                  <span className="drop-shadow-md">🍲</span>
                 </div>
               )}
 
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
                 </div>
 
-                <h3 className="text-base md:text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
+                <h3 className="text-base font-bold text-center text-gray-900 group-hover:text-orange-600 transition-colors capitalize">
               {v.category}
                 </h3>
               </div>
@@ -161,9 +162,9 @@ export default function FoodCategories() {
             <div
               key={`${category.category}-${index}`}
               data-category={category.category}
-              className="group cursor-pointer"
+              className="group cursor-pointer bg-white rounded-2xl p-4 shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 transform"
             >
-              <div className="relative aspect-square rounded-2xl overflow-hidden mb-3 shadow-md hover:shadow-xl transition-shadow duration-300">
+              <div className="relative aspect-square rounded-xl overflow-hidden mb-3">
                 {hasImage ? (
                   <img
                     src={category.imageUrl}
@@ -172,24 +173,25 @@ export default function FoodCategories() {
                   />
                 ) : (
                   <div 
-                    className="absolute inset-0 flex items-center justify-center text-white font-bold text-lg"
+                    className="absolute inset-0 flex items-center justify-center text-white font-bold text-2xl"
                     style={{
                       background: `linear-gradient(135deg, ${color1} 0%, ${color2} 100%)`
                     }}
                   >
-                    <span className="drop-shadow-md">{category.category}</span>
+                    <span className="drop-shadow-md">🍲</span>
                   </div>
                 )}
                 
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
               </div>
 
-              <h3 className="text-base md:text-lg font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
+              <h3 className="text-base font-bold text-center text-gray-900 group-hover:text-orange-600 transition-colors capitalize">
                 {category.category}
               </h3>
             </div>
           );
         })}
+      </div>
       </div>
     </section>
   );

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
+import { AuthProvider } from '@/context/auth-context';
+import { UserProfileMenu } from '@/components/user-profile-menu';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -18,35 +20,34 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <nav className="bg-green-600 text-white shadow-lg">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex justify-between items-center h-16">
-              <Link href="/" className="flex items-center gap-2 font-bold text-xl">
-                <span className="text-2xl">🍕</span>
-                <span>Food Connect</span>
-              </Link>
-              
-              <div className="hidden md:flex items-center gap-6">
-                <Link href="http://localhost:3000" className="hover:text-yellow-300 transition">Home</Link>
-                <Link href="/" className="hover:text-yellow-300 transition">Browse</Link>
-                <Link href="/chefs" className="hover:text-yellow-300 transition">Chefs</Link>
-                <Link href="/cart" className="hover:text-yellow-300 transition">Cart</Link>
-              </div>
+        <AuthProvider>
+          <nav className="bg-green-600 text-white shadow-lg">
+            <div className="max-w-7xl mx-auto px-4">
+              <div className="flex justify-between items-center h-16">
+                <Link href="/" className="flex items-center gap-2 font-bold text-xl">
+                  <span className="text-2xl">🍕</span>
+                  <span>Food Connect</span>
+                </Link>
+                
+                <div className="hidden md:flex items-center gap-6">
+                  <Link href="http://localhost:3000" className="hover:text-yellow-300 transition">Home</Link>
+                  <Link href="/" className="hover:text-yellow-300 transition">Browse</Link>
+                  <Link href="/chefs" className="hover:text-yellow-300 transition">Chefs</Link>
+                  <Link href="/cart" className="hover:text-yellow-300 transition">Cart</Link>
+                </div>
 
-              <div className="flex items-center gap-4">
-                <button className="relative">
-                  <span className="text-2xl">🛒</span>
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-                    0
-                  </span>
-                </button>
-                <button className="bg-yellow-400 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-500 transition">
-                  Sign In
-                </button>
+                <div className="flex items-center gap-4">
+                  <button className="relative">
+                    <span className="text-2xl">🛒</span>
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
+                      0
+                    </span>
+                  </button>
+                  <UserProfileMenu />
+                </div>
               </div>
             </div>
-          </div>
-        </nav>
+          </nav>
         
         {children}
 
@@ -96,6 +97,7 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
+        </AuthProvider>
       </body>
     </html>
   );
