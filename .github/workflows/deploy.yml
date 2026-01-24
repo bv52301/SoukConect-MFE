@@ -31,15 +31,44 @@ jobs:
       - name: Build applications
         run: pnpm run build
 
-      - name: Deploy to server
+      - name: Prepare deployment directory on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            # Create deployment directories if they don't exist
+            sudo mkdir -p /var/www/soukconect/shell
+            sudo mkdir -p /var/www/soukconect/food-connect
+            
+            # Set ownership to the SSH user
+            sudo chown -R $USER:$USER /var/www/soukconect
+            
+            # Set proper permissions
+            sudo chmod -R 755 /var/www/soukconect
+
+      - name: Deploy Shell App
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          source: "apps/shell/.next,apps/shell/public,apps/shell/package.json,apps/shell/next.config.ts,apps/food-connect/.next,apps/food-connect/public,apps/food-connect/package.json,apps/food-connect/next.config.ts"
+          source: "apps/shell/.next,apps/shell/public,apps/shell/package.json,apps/shell/next.config.ts"
           target: "/var/www/soukconect"
           strip_components: 1
+          rm: false
+
+      - name: Deploy Food Connect App
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "apps/food-connect/.next,apps/food-connect/public,apps/food-connect/package.json,apps/food-connect/next.config.ts"
+          target: "/var/www/soukconect"
+          strip_components: 1
+          rm: false
 
       - name: Install dependencies and restart apps
         uses: appleboy/ssh-action@master
@@ -48,10 +77,12 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            # Install and restart Shell app
             cd /var/www/soukconect/shell
             pnpm install --prod
             pm2 restart shell || pm2 start ecosystem.config.js --name shell
 
+            # Install and restart Food Connect app
             cd /var/www/soukconect/food-connect
             pnpm install --prod
             pm2 restart food-connect || pm2 start ecosystem.config.js --name food-connect
