@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import FoodCategories from '@/components/category';
 import { ChefCard } from '../components/chef-card';
 import { getTopChefs } from '../lib/data';
@@ -7,7 +7,18 @@ import { VendorsSection } from '@/components/vendor-section';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Chef } from '@soukconect/types';
 
-export default function FoodHomePage() {
+function LoadingFallback() {
+  return (
+    <main className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-500"></div>
+        <p className="mt-4 text-gray-600">Loading...</p>
+      </div>
+    </main>
+  );
+}
+
+function FoodHomeContent() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [topChefs, setTopChefs] = useState<Chef[]>([]);
   const searchParams = useSearchParams();
@@ -27,10 +38,10 @@ export default function FoodHomePage() {
 
   const handleCategoryClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
-    
+
     const target = event.target as HTMLElement;
     const categoryElement = target.closest('[data-category]') as HTMLElement;
-    
+
     if (categoryElement) {
       const category = categoryElement.getAttribute('data-category');
       if (category) {
@@ -95,5 +106,13 @@ export default function FoodHomePage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function FoodHomePage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <FoodHomeContent />
+    </Suspense>
   );
 }

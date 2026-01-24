@@ -11,134 +11,47 @@
 
    ▲ Next.js 15.5.4
    - Local:        http://localhost:3001
-   - Network:      http://192.168.1.5:3001
+   - Network:      http://192.168.1.8:3001
    - Environments: .env.local
 
  ✓ Starting...
- ✓ Ready in 10.1s
- ○ Compiling /chefs/[id] ...
- ✓ Compiled /chefs/[id] in 8.7s (592 modules)
-Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
-    at VendorPage (app\chefs\[id]\page.tsx:34:36)
-  32 |
-  33 | export default async function VendorPage({ params }: VendorPageProps) {
-> 34 |   const vendorId = parseInt(params.id, 10);
-     |                                    ^
-  35 |   if (Number.isNaN(vendorId)) {
-  36 |     notFound();
-  37 |   }
+ ✓ Ready in 6.1s
  ○ Compiling / ...
- ⚠ ./app/page.tsx
-Attempted import error: 'getTopChefs' is not exported from '../lib/data' (imported as 'getTopChefs').
-
-Import trace for requested module:
-./app/page.tsx
-
-./app/page.tsx
-Attempted import error: 'getTopChefs' is not exported from '../lib/data' (imported as 'getTopChefs').
-
-Import trace for requested module:
-./app/page.tsx
-DEBUG - API_BASE_URL: http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com:8080
- GET / 200 in 4413ms
- ⚠ Fast Refresh had to perform a full reload due to a runtime error.
- ✓ Compiled / in 1921ms (655 modules)
-DEBUG - API_BASE_URL: http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com:8080
- GET / 200 in 961ms
- ✓ Compiled in 1113ms (655 modules)
- GET / 200 in 276ms
+ ✓ Compiled / in 8.3s (661 modules)
+DEBUG - API_BASE_URL: http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com
+ GET / 200 in 9107ms
  ○ Compiling /chefs/[id] ...
- ✓ Compiled /chefs/[id] in 646ms (417 modules)
-Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
-    at VendorPage (app\chefs\[id]\page.tsx:34:36)
-  32 |
-  33 | export default async function VendorPage({ params }: VendorPageProps) {
-> 34 |   const vendorId = parseInt(params.id, 10);
-     |                                    ^
-  35 |   if (Number.isNaN(vendorId)) {
-  36 |     notFound();
-  37 |   }
- GET /chefs/9 200 in 1247ms
-Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
-    at VendorPage (app\chefs\[id]\page.tsx:34:36)
-  32 |
-  33 | export default async function VendorPage({ params }: VendorPageProps) {
-> 34 |   const vendorId = parseInt(params.id, 10);
-     |                                    ^
-  35 |   if (Number.isNaN(vendorId)) {
-  36 |     notFound();
-  37 |   }
- GET /chefs/9 200 in 146ms
+ ✓ Compiled /chefs/[id] in 1499ms (679 modules)
+ GET /chefs/37 200 in 4712ms
+ GET /chefs/37 200 in 739ms
+ GET / 200 in 100ms
+ GET / 200 in 86ms
+ GET / 200 in 92ms
+DEBUG - API_BASE_URL: http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com
+ GET / 200 in 467ms
+ GET /chefs/49 200 in 247ms
  ○ Compiling /_not-found ...
- ✓ Compiled /_not-found in 880ms (667 modules)
- GET /chefs 404 in 1401ms
-DEBUG - API_BASE_URL: http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com:8080
- GET / 200 in 241ms
- GET /cart 404 in 120ms
- GET / 200 in 124ms
- GET / 200 in 187ms
- GET /chefs 404 in 115ms
- GET / 200 in 129ms
-Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
-    at VendorPage (app\chefs\[id]\page.tsx:34:36)
-  32 |
-  33 | export default async function VendorPage({ params }: VendorPageProps) {
-> 34 |   const vendorId = parseInt(params.id, 10);
-     |                                    ^
-  35 |   if (Number.isNaN(vendorId)) {
-  36 |     notFound();
-  37 |   }
- GET /chefs/9 200 in 262ms
- ✓ Compiled in 2.5s (676 modules)
-Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
-    at VendorPage (app\chefs\[id]\page.tsx:34:36)
-  32 |
-  33 | export default async function VendorPage({ params }: VendorPageProps) {
-> 34 |   const vendorId = parseInt(params.id, 10);
-     |                                    ^
-  35 |   if (Number.isNaN(vendorId)) {
-  36 |     notFound();
-  37 |   }
- GET /chefs/9 200 in 539ms
- ✓ Compiled in 1268ms (678 modules)
-Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
-    at VendorPage (app\chefs\[id]\page.tsx:34:36)
-  32 |
-  33 | export default async function VendorPage({ params }: VendorPageProps) {
-> 34 |   const vendorId = parseInt(params.id, 10);
-     |                                    ^
-  35 |   if (Number.isNaN(vendorId)) {
-  36 |     notFound();
-  37 |   }
- GET /chefs/9 200 in 520ms
- GET /?category=Indian 200 in 981ms
-Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
-    at VendorPage (app\chefs\[id]\page.tsx:34:36)
-  32 |
-  33 | export default async function VendorPage({ params }: VendorPageProps) {
-> 34 |   const vendorId = parseInt(params.id, 10);
-     |                                    ^
-  35 |   if (Number.isNaN(vendorId)) {
-  36 |     notFound();
-  37 |   }
- GET /chefs/8 200 in 561ms
- GET /?category=Indian 200 in 77ms
-Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
-    at VendorPage (app\chefs\[id]\page.tsx:34:36)
-  32 |
-  33 | export default async function VendorPage({ params }: VendorPageProps) {
-> 34 |   const vendorId = parseInt(params.id, 10);
-     |                                    ^
-  35 |   if (Number.isNaN(vendorId)) {
-  36 |     notFound();
-  37 |   }
- GET /chefs/42 200 in 357ms
- ○ Compiling /_not-found ...
- ✓ Compiled /_not-found in 3s (683 modules)
- GET /chefs/[/https:/testdata.ecommerce.com/media/currypot_seekh.jpg/%22]%22 404 in 4637ms
- GET /chefs/[/https:/testdata.ecommerce.com/media/currypot_tikka.jpg/%22]%22 404 in 4665ms
- GET /chefs/[/https:/testdata.ecommerce.com/media/currypot_samosa.jpg/%22]%22 404 in 4646ms
-Error: Route "/chefs/[id]" used `params.id`. `params` should be awaited before using its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
-    at VendorPage (app\chefs\[id]\page.tsx:34:36)
-  32 |
-  33 | export default async function VendorPage({ params }: VendorPageProps) {
+ ✓ Compiled /_not-found in 927ms (670 modules)
+ GET /chefs/[/https:/testdata.ecommerce.com/media/unclelees_salted_egg.jpg/%22]%22 404 in 1759ms
+ GET /chefs/[/https:/testdata.ecommerce.com/media/unclelees_fried_rice.jpg/%22]%22 404 in 1756ms
+ ✓ Compiled in 2.5s (684 modules)
+ GET /chefs/49 200 in 338ms
+ ✓ Compiled in 1558ms (684 modules)
+ GET /chefs/49 200 in 395ms
+ ⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.1.8:3001
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 5.1s
+ ⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+   ▲ Next.js 15.5.4
+   - Local:        http://localhost:3001
+   - Network:      http://192.168.1.8:3001
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 3.5s
+ ⚠ Found a change in next.config.ts. Restarting the server to apply the changes...

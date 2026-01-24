@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { FullCarousel} from './full-carousel-layout'
-import { DualSidebarCarousel} from './dual-sidebar-layout'
-import { SingleCardLayout} from './single-card-layout'
-import { CardStackLayout} from './card-stack-layout'
+import { FullCarousel } from './full-carousel-layout'
+import { DualSidebarCarousel } from './dual-sidebar-layout'
+import { SingleCardLayout } from './single-card-layout'
+import { CardStackLayout } from './card-stack-layout'
 
 const bannerData = {
   banners: [
@@ -231,7 +231,7 @@ const Banner = ({ banner }: BannerProps) => {
 };
 
 export default function BannerCMS() {
-  const [selectedBanner, setSelectedBanner] = useState(0);
+  const [selectedBanner] = useState(0);
 
   return (
     <div className="w-[90%] mx-[5%]">

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { VendorProducts } from '@/components/vendor-products';
+import { VendorProducts, type Product } from '@/components/vendor-products';
 import { CheckoutModal, type CheckoutItem } from '@/components/checkout-modal';
 
 interface CartItem {
@@ -10,13 +10,6 @@ interface CartItem {
   name: string;
   price: number;
   quantity: number;
-  vendorId: number;
-}
-
-interface ProductType {
-  id: number;
-  name: string;
-  price: number;
   vendorId: number;
 }
 
@@ -38,12 +31,12 @@ export default function CartWrapper({ chef, sampleProducts, randomBg }: CartWrap
   const [showCart, setShowCart] = useState(false);
   const [showCheckout, setShowCheckout] = useState(false);
 
-  const handleAddToCart = (product: ProductType | any) => {
+  const handleAddToCart = (product: Product) => {
     const safeProduct = {
-      id: product.id || 0,
-      name: product.name || '',
-      price: product.price || 0,
-      vendorId: product.vendorId || chef.id || 0,
+      id: typeof product.id === 'number' ? product.id : 0,
+      name: typeof product.name === 'string' ? product.name : '',
+      price: typeof product.price === 'number' ? product.price : 0,
+      vendorId: typeof product.vendorId === 'number' ? product.vendorId : (chef.id ?? 0),
     };
 
     setCart((prevCart) => {

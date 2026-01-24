@@ -29,7 +29,7 @@ interface Schedule {
 }
 
 // Make ALL properties optional to match the actual data from your library
-interface Product {
+export interface Product {
   id?: number;
   name?: string;
   sku?: string | null;
@@ -107,7 +107,7 @@ export function VendorProducts({ products = [], onAddToCart }: VendorProductsPro
                   <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
                     {product.name || 'Unnamed Product'}
                   </h3>
-                  
+
                   {/* Description */}
                   {product.description && (
                     <p className="text-sm text-gray-600 line-clamp-3 mb-3">
@@ -131,8 +131,8 @@ export function VendorProducts({ products = [], onAddToCart }: VendorProductsPro
                   className={`
                     w-10 h-10 rounded-full flex items-center justify-center
                     transition-all duration-200
-                    ${product.available !== false 
-                      ? 'bg-green-500 hover:bg-green-600 text-white shadow-md hover:shadow-lg' 
+                    ${product.available !== false
+                      ? 'bg-green-500 hover:bg-green-600 text-white shadow-md hover:shadow-lg'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                     }
                   `}

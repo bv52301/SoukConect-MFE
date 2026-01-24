@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  shell:
+    build:
+      context: .
+      dockerfile: apps/shell/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: ${API_URL:-http://localhost}
+    restart: always
+    networks:
+      - soukconect
+
+  food-connect:
+    build:
+      context: .
+      dockerfile: apps/food-connect/Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_API_URL: ${API_URL:-http://localhost}
+    restart: always
+    networks:
+      - soukconect
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - shell
+      - food-connect
+    networks:
+      - soukconect
+
+networks:
+  soukconect:
+    driver: bridge
