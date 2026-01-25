@@ -38,16 +38,21 @@ jobs:
       - name: Build all apps
         run: pnpm run build
 
+      - name: Ensure public directories exist
+        run: |
+          mkdir -p apps/shell/public
+          mkdir -p apps/food-connect/public
+
       - name: Verify build output
         run: |
           echo "=== shell .next ==="
           ls -la apps/shell/.next
           echo "=== shell public ==="
-          ls -la apps/shell/public
+          ls -la apps/shell/public || echo "(empty or missing)"
           echo "=== food-connect .next ==="
           ls -la apps/food-connect/.next
           echo "=== food-connect public ==="
-          ls -la apps/food-connect/public
+          ls -la apps/food-connect/public || echo "(empty or missing)"
 
       # -----------------------------
       # 4. FORCE RESET SERVER DIR (ROOT)
