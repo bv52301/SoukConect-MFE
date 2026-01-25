@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8082/api';
 
 console.log('DEBUG - API_BASE_URL:', API_BASE_URL); // Debug log
 
@@ -6,16 +6,16 @@ export const categoryApi = {
   async getCategories() {
     const url = `${API_BASE_URL}/cuisines/categories`;
     console.log('DEBUG - Fetching from:', url); // Debug log
-    
+
     const res = await fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-      
+
       // Remove cache option - it's for server-side only
     });
-    
+
     if (!res.ok) throw new Error(`Failed to fetch categories: ${res.status}`);
     return res.json();
   },
@@ -28,7 +28,7 @@ export const categoryApi = {
         'Content-Type': 'application/json',
       },
     });
-    
+
     if (!res.ok) throw new Error(`Category ${id} not found`);
     return res.json();
   }
