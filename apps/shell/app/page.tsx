@@ -2,6 +2,7 @@
 "use client";
 import Link from "next/link";
 import BannerCMS from "./components/carousel-layout";
+import { config } from "@/lib/config";
 export default function HomePage() {
   return (
     <main className="min-h-screen">
@@ -21,7 +22,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Food Connect Card */}
-            <Link href="http://localhost:3001">
+            <Link href={config.foodConnectUrl}>
               <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 transform cursor-pointer h-full flex flex-col">
                 <div className="text-5xl mb-3 text-center">🍕</div>
                 <h3 className="text-2xl font-bold text-center mb-2">Food Connect</h3>
