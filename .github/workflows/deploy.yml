@@ -35,16 +35,19 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Build shell app
-        run: pnpm --filter @soukconect/shell build
-        
+      - name: Build all apps
+        run: pnpm run build
 
       - name: Verify build output
         run: |
-          echo "=== .next ==="
+          echo "=== shell .next ==="
           ls -la apps/shell/.next
-          echo "=== public ==="
+          echo "=== shell public ==="
           ls -la apps/shell/public
+          echo "=== food-connect .next ==="
+          ls -la apps/food-connect/.next
+          echo "=== food-connect public ==="
+          ls -la apps/food-connect/public
 
       # -----------------------------
       # 4. FORCE RESET SERVER DIR (ROOT)
@@ -79,7 +82,7 @@ jobs:
           username: ec2-user
           key: ${{ secrets.SERVER_SSH_KEY }}
           target: /var/www/soukconect
-          source: "apps/shell/.next/,apps/shell/public/,apps/shell/package.json,apps/shell/next.config.js,packages/,package.json,pnpm-lock.yaml,pnpm-workspace.yaml,ecosystem.config.js"
+          source: "apps/shell/.next/,apps/shell/public/,apps/shell/package.json,apps/shell/next.config.js,apps/food-connect/.next/,apps/food-connect/public/,apps/food-connect/package.json,packages/,package.json,pnpm-lock.yaml,pnpm-workspace.yaml,ecosystem.config.js"
           strip_components: 0
 
       # -----------------------------
@@ -100,14 +103,26 @@ jobs:
 
             echo "==> Cleaning old PM2 state"
             pm2 delete souk-ui || true
+            pm2 delete souk-food-connect || true
 
             echo "==> Install production dependencies at root"
             cd /var/www/soukconect
             rm -rf node_modules
             pnpm install --prod --frozen-lockfile
 
-            echo "==> Create next.config.js (skip TypeScript requirement)"
+            echo "==> Create next.config.js for shell (skip TypeScript requirement)"
             cat > /var/www/soukconect/apps/shell/next.config.js << 'NEXTCONFIG'
+            /** @type {import('next').NextConfig} */
+            const nextConfig = {
+              reactStrictMode: true,
+              transpilePackages: [],
+            };
+
+            module.exports = nextConfig;
+            NEXTCONFIG
+
+            echo "==> Create next.config.js for food-connect (skip TypeScript requirement)"
+            cat > /var/www/soukconect/apps/food-connect/next.config.js << 'NEXTCONFIG'
             /** @type {import('next').NextConfig} */
             const nextConfig = {
               reactStrictMode: true,
@@ -135,16 +150,44 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             sudo su - <<'EOF'
+            SHELL_OK=false
+            FOOD_OK=false
+
+            echo "==> Checking shell app (port 3000)..."
             for i in {1..10}; do
               if curl -sf http://localhost:3000 >/dev/null; then
-                echo "✅ UI is healthy"
-                pm2 status
-                exit 0
+                echo "✅ Shell app is healthy"
+                SHELL_OK=true
+                break
               fi
               sleep 2
             done
 
-            echo "❌ UI failed health check"
-            pm2 logs souk-ui --lines 50
+            echo "==> Checking food-connect app (port 3001)..."
+            for i in {1..10}; do
+              if curl -sf http://localhost:3001 >/dev/null; then
+                echo "✅ Food-connect app is healthy"
+                FOOD_OK=true
+                break
+              fi
+              sleep 2
+            done
+
+            pm2 status
+
+            if [ "$SHELL_OK" = true ] && [ "$FOOD_OK" = true ]; then
+              echo "✅ All apps are healthy"
+              exit 0
+            fi
+
+            echo "❌ Health check failed"
+            if [ "$SHELL_OK" = false ]; then
+              echo "Shell app logs:"
+              pm2 logs souk-ui --lines 30
+            fi
+            if [ "$FOOD_OK" = false ]; then
+              echo "Food-connect app logs:"
+              pm2 logs souk-food-connect --lines 30
+            fi
             exit 1
             EOF
