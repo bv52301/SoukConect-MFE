@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import FoodCategories from '@/components/category';
 import { ChefCard } from '../components/chef-card';
 import { getTopChefs } from '../lib/data';
@@ -7,7 +7,7 @@ import { VendorsSection } from '@/components/vendor-section';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Chef } from '@soukconect/types';
 
-export default function FoodHomePage() {
+function FoodContent() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [topChefs, setTopChefs] = useState<Chef[]>([]);
   const searchParams = useSearchParams();
@@ -95,5 +95,13 @@ export default function FoodHomePage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function FoodHomePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-gray-50 flex items-center justify-center">Loading...</div>}>
+      <FoodContent />
+    </Suspense>
   );
 }

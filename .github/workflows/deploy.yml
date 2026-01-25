@@ -59,7 +59,7 @@ jobs:
           strip_components: 1
           rm: false
 
-      - name: Deploy Food Connect App
+      - name: Deploy Food Connect AppF
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
