@@ -78,7 +78,9 @@ jobs:
           username: ec2-user
           key: ${{ secrets.SERVER_SSH_KEY }}
           target: /var/www/soukconect
-          source: "apps/shell/.next,apps/shell/public,apps/shell/package.json,apps/shell/next.config.ts,packages,package.json,pnpm-lock.yaml,pnpm-workspace.yaml,ecosystem.config.js"
+          source: "apps/shell/.next/,apps/shell/public/,apps/shell/package.json,packages/,package.json,pnpm-lock.yaml,pnpm-workspace.yaml,ecosystem.config.js"
+          strip_components: 0
+
       # -----------------------------
       # 6. ROOT INSTALL + PM2 START
       # -----------------------------
@@ -96,20 +98,29 @@ jobs:
             chown -R root:root /var/www/soukconect
 
             echo "==> Cleaning old PM2 state"
-            pm2 kill || true
-            rm -rf /root/.pm2
+            pm2 delete souk-ui || true
 
-            echo "==> Install production dependencies"
-            cd /var/www/soukconect/apps/shell
+            echo "==> Install production dependencies at root"
+            cd /var/www/soukconect
             rm -rf node_modules
             pnpm install --prod --frozen-lockfile
+
+            echo "==> Create next.config.js (skip TypeScript requirement)"
+            cat > /var/www/soukconect/apps/shell/next.config.js << 'NEXTCONFIG'
+            /** @type {import('next').NextConfig} */
+            const nextConfig = {
+              reactStrictMode: true,
+              transpilePackages: [],
+            };
+
+            module.exports = nextConfig;
+            NEXTCONFIG
 
             echo "==> Start application with PM2 (root)"
             cd /var/www/soukconect
             pm2 start ecosystem.config.js
-
             pm2 save
-            pm2 startup
+            pm2 startup systemd -u root --hp /root
             EOF
 
       # -----------------------------
