@@ -1,28 +1,19 @@
 module.exports = {
-    apps: [
-        {
-            name: "shell",
-            script: "npm",
-            args: "start",
-            cwd: "./apps/shell",
-            env: {
-                PORT: 3000,
-                HOSTNAME: "0.0.0.0",
-                NODE_ENV: "production",
-            },
-        },
-        {
-            name: "food-connect",
-            script: "npm",
-            args: "start",
-            cwd: "./apps/food-connect",
-            env: {
-                PORT: 3001,
-                HOSTNAME: "0.0.0.0",
-                NODE_ENV: "production",
-            },
-        },
-    ],
+  apps: [
+    {
+      name: "souk-ui",
+      cwd: "/var/www/soukconect/apps/shell",
+      script: "node_modules/.bin/next",
+      args: "start -p 3000",
+      env: {
+        NODE_ENV: "production",
+        PORT: 3000
+      },
+      instances: 1,
+      exec_mode: "fork",
+      autorestart: true,
+      max_restarts: 5,
+      min_uptime: "30s"
+    }
+  ]
 };
-
-
