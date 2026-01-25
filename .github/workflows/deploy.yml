@@ -37,6 +37,7 @@ jobs:
 
       - name: Build shell app
         run: pnpm --filter @soukconect/shell build
+        
 
       - name: Verify build output
         run: |
@@ -78,7 +79,7 @@ jobs:
           username: ec2-user
           key: ${{ secrets.SERVER_SSH_KEY }}
           target: /var/www/soukconect
-          source: "apps/shell/.next/,apps/shell/public/,apps/shell/package.json,packages/,package.json,pnpm-lock.yaml,pnpm-workspace.yaml,ecosystem.config.js"
+          source: "apps/shell/.next/,apps/shell/public/,apps/shell/package.json,apps/shell/next.config.js,packages/,package.json,pnpm-lock.yaml,pnpm-workspace.yaml,ecosystem.config.js"
           strip_components: 0
 
       # -----------------------------
