@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v3
 
       # -----------------------------
-      # 2. Node + pnpm
+      # 2. Node + pnpm (CI build only)
       # -----------------------------
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -40,17 +40,11 @@ jobs:
 
       - name: Verify build output
         run: |
-          echo "=== apps/shell ==="
-          ls -la apps/shell || true
-
-          echo "=== apps/shell/.next ==="
-          ls -la apps/shell/.next || true
-
-          echo "=== apps/shell/public ==="
-          ls -la apps/shell/public || true
+          ls -la apps/shell/.next
+          ls -la apps/shell/public
 
       # -----------------------------
-      # 4. Deploy files (FIXED)
+      # 4. Copy build artifacts
       # -----------------------------
       - name: Copy build to server
         uses: appleboy/scp-action@master
@@ -59,12 +53,21 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           target: /var/www/soukconect
-          source: "apps/shell/.next,apps/shell/public,apps/shell/package.json,apps/shell/next.config.ts,packages,package.json,pnpm-lock.yaml,pnpm-workspace.yaml,ecosystem.config.js"
+          source: |
+            apps/shell/.next
+            apps/shell/public
+            apps/shell/package.json
+            apps/shell/next.config.ts
+            packages
+            package.json
+            pnpm-lock.yaml
+            pnpm-workspace.yaml
+            ecosystem.config.js
 
       # -----------------------------
-      # 5. Root deploy + PM2 reload
+      # 5. Root install + PM2 restart (FIXED)
       # -----------------------------
-      - name: Install prod deps & reload PM2 (root)
+      - name: Root deploy & PM2 start
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -74,17 +77,26 @@ jobs:
             sudo su - <<'EOF'
             set -e
 
-            cd /var/www/soukconect
+            echo "==> Fix ownership"
+            chown -R root:root /var/www/soukconect
 
+            echo "==> Clean old runtime"
+            pm2 kill || true
+            rm -rf /root/.pm2
+
+            cd /var/www/soukconect/apps/shell
+            rm -rf node_modules
+
+            echo "==> Install prod deps"
             pnpm install --prod --frozen-lockfile
 
-            if pm2 describe souk-ui >/dev/null 2>&1; then
-              pm2 reload ecosystem.config.js --only souk-ui --update-env
-            else
-              pm2 start ecosystem.config.js
-            fi
+            echo "==> Start PM2"
+            cd /var/www/soukconect
+            pm2 start ecosystem.config.js
 
             pm2 save
+            pm2 startup
+
             EOF
 
       # -----------------------------
@@ -101,6 +113,7 @@ jobs:
             for i in {1..10}; do
               if curl -sf http://localhost:3000 >/dev/null; then
                 echo "✅ UI is healthy"
+                pm2 status
                 exit 0
               fi
               sleep 2
