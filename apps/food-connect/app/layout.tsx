@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import Link from 'next/link';
 import { AuthProvider } from '@/context/auth-context';
 import { UserProfileMenu } from '@/components/user-profile-menu';
+import { config } from '@/lib/config';
 import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -30,7 +31,7 @@ export default function RootLayout({
                 </Link>
                 
                 <div className="hidden md:flex items-center gap-6">
-                  <Link href="http://localhost:3000" className="hover:text-yellow-300 transition">Home</Link>
+                  <Link href={config.shellUrl} className="hover:text-yellow-300 transition">Home</Link>
                   <Link href="/" className="hover:text-yellow-300 transition">Browse</Link>
                   <Link href="/chefs" className="hover:text-yellow-300 transition">Chefs</Link>
                   <Link href="/cart" className="hover:text-yellow-300 transition">Cart</Link>
