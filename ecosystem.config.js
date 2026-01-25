@@ -7,6 +7,7 @@ module.exports = {
             cwd: "./apps/shell",
             env: {
                 PORT: 3000,
+                HOSTNAME: "0.0.0.0",
                 NODE_ENV: "production",
             },
         },
@@ -17,6 +18,7 @@ module.exports = {
             cwd: "./apps/food-connect",
             env: {
                 PORT: 3001,
+                HOSTNAME: "0.0.0.0",
                 NODE_ENV: "production",
             },
         },
