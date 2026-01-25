@@ -32,8 +32,19 @@ jobs:
       - name: Install deps
         run: pnpm install
 
-      - name: Build apps
-        run: pnpm build
+      - name: Build shell app
+        run: pnpm --filter @soukconect/shell build
+		
+	  - name: Verify build output
+        run: |
+          echo "=== apps/shell ==="
+          ls -la apps/shell || true
+
+          echo "=== apps/shell/.next ==="
+          ls -la apps/shell/.next || true
+
+          echo "=== apps/shell/public ==="
+          ls -la apps/shell/public || true
 
       # -----------------------------
       # 4. Deploy files
