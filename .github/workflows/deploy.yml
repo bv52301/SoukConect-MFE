@@ -2,116 +2,88 @@ name: Deploy to Server
 
 on:
   push:
-    branches:
-      - main
-      - production
+    branches: [main, production]
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       # -----------------------------
       # 1. Checkout
       # -----------------------------
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       # -----------------------------
       # 2. Node + pnpm
       # -----------------------------
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: "18"
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v2
         with:
           version: 10
 
       # -----------------------------
       # 3. Install & Build
       # -----------------------------
-      - name: Install dependencies
+      - name: Install deps
         run: pnpm install
 
       - name: Build apps
         run: pnpm build
 
       # -----------------------------
-      # 4. Prepare server
+      # 4. Deploy files
       # -----------------------------
-      - name: Prepare server directories
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          script: |
-            sudo mkdir -p /var/www/soukconect
-            sudo chown -R $USER:$USER /var/www/soukconect
-
-      # -----------------------------
-      # 5. Deploy build artifacts
-      # -----------------------------
-      - name: Deploy shell app
+      - name: Copy build to server
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
+          target: /var/www/soukconect
           source: |
             apps/shell/.next
             apps/shell/public
             apps/shell/package.json
             apps/shell/next.config.ts
-          target: /var/www/soukconect
-
-      - name: Deploy shared packages
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          source: packages
-          target: /var/www/soukconect
-
-      - name: Deploy root configs
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          source: |
+            packages
             package.json
             pnpm-lock.yaml
             pnpm-workspace.yaml
             ecosystem.config.js
-          target: /var/www/soukconect
 
       # -----------------------------
-      # 6. Install prod deps + PM2 reload
+      # 5. Root deploy + PM2 reload
       # -----------------------------
-      - name: Install prod deps & reload PM2
+      - name: Install prod deps & reload PM2 (root)
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            sudo su - <<'EOF'
+            set -e
+
             cd /var/www/soukconect
+
             pnpm install --prod --frozen-lockfile
 
-            pm2 describe souk-ui >/dev/null 2>&1 \
-              && pm2 reload ecosystem.config.js --only souk-ui --update-env \
-              || pm2 start ecosystem.config.js
+            if pm2 describe souk-ui >/dev/null 2>&1; then
+              pm2 reload ecosystem.config.js --only souk-ui --update-env
+            else
+              pm2 start ecosystem.config.js
+            fi
 
             pm2 save
+            EOF
 
       # -----------------------------
-      # 7. Health check (CRITICAL)
+      # 6. Health check (root)
       # -----------------------------
       - name: Health check
         uses: appleboy/ssh-action@master
@@ -120,6 +92,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            sudo su - <<'EOF'
             for i in {1..10}; do
               if curl -sf http://localhost:3000 >/dev/null; then
                 echo "✅ UI is healthy"
@@ -131,3 +104,4 @@ jobs:
             echo "❌ UI failed health check"
             pm2 logs souk-ui --lines 50
             exit 1
+            EOF
