@@ -13,29 +13,32 @@ jobs:
       # -----------------------------
       # 1. Checkout
       # -----------------------------
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       # -----------------------------
       # 2. Node + pnpm
       # -----------------------------
-      - uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: "18"
 
-      - uses: pnpm/action-setup@v2
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
         with:
           version: 10
 
       # -----------------------------
       # 3. Install & Build
       # -----------------------------
-      - name: Install deps
+      - name: Install dependencies
         run: pnpm install
 
       - name: Build shell app
         run: pnpm --filter @soukconect/shell build
-		
-	  - name: Verify build output
+
+      - name: Verify build output
         run: |
           echo "=== apps/shell ==="
           ls -la apps/shell || true
