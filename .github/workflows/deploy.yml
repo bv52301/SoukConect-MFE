@@ -36,6 +36,8 @@ jobs:
         run: pnpm install
 
       - name: Build all apps
+        env:
+          NEXT_PUBLIC_API_URL: "http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com:8082/api"
         run: pnpm run build
 
       - name: Ensure public directories exist
