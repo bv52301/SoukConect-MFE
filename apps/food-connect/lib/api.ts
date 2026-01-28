@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8082/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost/api';
 
 console.log('DEBUG - API_BASE_URL:', API_BASE_URL); // Debug log
 
