@@ -89,7 +89,7 @@ jobs:
           username: ec2-user
           key: ${{ secrets.SERVER_SSH_KEY }}
           target: /var/www/soukconect
-          source: "apps/shell/.next/,apps/shell/public/,apps/shell/package.json,apps/shell/next.config.ts,apps/food-connect/.next/,apps/food-connect/public/,apps/food-connect/package.json,apps/food-connect/next.config.ts,packages/,package.json,pnpm-lock.yaml,pnpm-workspace.yaml,ecosystem.config.js"
+          source: "apps/shell/.next/,apps/shell/public/,apps/shell/package.json,apps/shell/next.config.js,apps/food-connect/.next/,apps/food-connect/public/,apps/food-connect/package.json,apps/food-connect/next.config.js,packages/,package.json,pnpm-lock.yaml,pnpm-workspace.yaml,ecosystem.config.js"
           strip_components: 0
 
       # -----------------------------
