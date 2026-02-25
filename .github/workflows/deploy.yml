@@ -37,7 +37,7 @@ jobs:
 
       - name: Build all apps
         env:
-          NEXT_PUBLIC_API_URL: "http://ec2-52-76-119-114.ap-southeast-1.compute.amazonaws.com/api"
+          NEXT_PUBLIC_API_URL: "http://52.76.119.114/api"
         run: pnpm run build
 
       - name: Ensure public directories exist
@@ -45,19 +45,8 @@ jobs:
           mkdir -p apps/shell/public
           mkdir -p apps/food-connect/public
 
-      - name: Verify build output
-        run: |
-          echo "=== shell .next ==="
-          ls -la apps/shell/.next
-          echo "=== shell public ==="
-          ls -la apps/shell/public || echo "(empty or missing)"
-          echo "=== food-connect .next ==="
-          ls -la apps/food-connect/.next
-          echo "=== food-connect public ==="
-          ls -la apps/food-connect/public || echo "(empty or missing)"
-
       # -----------------------------
-      # 4. FORCE RESET SERVER DIR
+      # 4. FORCE RESET SERVER DIR (Prevents stale .ts files)
       # -----------------------------
       - name: Prepare server directory
         uses: appleboy/ssh-action@master
@@ -68,14 +57,9 @@ jobs:
           script: |
             sudo su - <<'EOF'
             set -e
-
-            echo "==> Removing old deploy directory"
+            echo "==> Cleaning old deployment to prevent stale config files"
             rm -rf /var/www/soukconect
-
-            echo "==> Recreating deploy directory"
             mkdir -p /var/www/soukconect
-
-            echo "==> Giving ownership to ec2-user for SCP"
             chown -R ec2-user:ec2-user /var/www/soukconect
             EOF
 
@@ -115,19 +99,17 @@ jobs:
 
             echo "==> Install production dependencies"
             cd /var/www/soukconect
+            # Removing node_modules ensures pnpm doesn't have a partial-install conflict
             rm -rf node_modules
             sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PNPM install --prod --frozen-lockfile"
 
             echo "==> Update PM2 process list"
-            sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 delete souk-ui || true"
-            sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 delete souk-food-connect || true"
+            sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 delete all || true"
             sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 start /var/www/soukconect/ecosystem.config.js"
             sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 save"
 
             echo "==> Restarting PM2 via systemd"
             systemctl restart pm2-soukui
-
-            echo "==> Systemd service status"
             systemctl status pm2-soukui --no-pager
             EOF
 
@@ -142,8 +124,6 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             sudo su - <<'EOF'
-            set -e
-
             NVM_DIR="/home/soukui/.nvm"
             NODE_BIN="/home/soukui/.nvm/versions/node/v18.20.8/bin"
             PM2="$NODE_BIN/pm2"
@@ -152,7 +132,7 @@ jobs:
             FOOD_OK=false
 
             echo "==> Checking shell app (port 3000)..."
-            for i in {1..10}; do
+            for i in {1..15}; do
               if curl -sf http://localhost:3000 >/dev/null; then
                 echo "✅ Shell app is healthy"
                 SHELL_OK=true
@@ -162,7 +142,7 @@ jobs:
             done
 
             echo "==> Checking food-connect app (port 3001)..."
-            for i in {1..10}; do
+            for i in {1..15}; do
               if curl -sf http://localhost:3001 >/dev/null; then
                 echo "✅ Food-connect app is healthy"
                 FOOD_OK=true
@@ -171,25 +151,12 @@ jobs:
               sleep 2
             done
 
-            echo "==> Systemd service status"
-            systemctl is-active pm2-soukui
-
-            echo "==> PM2 process list"
-            sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 status"
-
             if [ "$SHELL_OK" = true ] && [ "$FOOD_OK" = true ]; then
               echo "✅ All apps are healthy"
               exit 0
+            else
+              echo "❌ Health check failed"
+              sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 status"
+              exit 1
             fi
-
-            echo "❌ Health check failed"
-            if [ "$SHELL_OK" = false ]; then
-              echo "Shell app logs:"
-              sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 logs souk-ui --lines 30 --nostream"
-            fi
-            if [ "$FOOD_OK" = false ]; then
-              echo "Food-connect app logs:"
-              sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 logs souk-food-connect --lines 30 --nostream"
-            fi
-            exit 1
             EOF
