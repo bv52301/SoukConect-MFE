@@ -37,7 +37,9 @@ jobs:
 
       - name: Build all apps
         env:
+          # Use the new server IP and relative paths for built-in links
           NEXT_PUBLIC_API_URL: "http://52.76.119.114/api"
+          NEXT_PUBLIC_FOOD_CONNECT_URL: "/food"
         run: pnpm run build
 
       - name: Ensure public directories exist
@@ -46,7 +48,7 @@ jobs:
           mkdir -p apps/food-connect/public
 
       # -----------------------------
-      # 4. FORCE RESET SERVER DIR (Prevents stale .ts files)
+      # 4. FORCE RESET SERVER DIR (Atomic Deployment)
       # -----------------------------
       - name: Prepare server directory
         uses: appleboy/ssh-action@master
@@ -57,7 +59,7 @@ jobs:
           script: |
             sudo su - <<'EOF'
             set -e
-            echo "==> Cleaning old deployment to prevent stale config files"
+            echo "==> Wiping old files to prevent stale configurations"
             rm -rf /var/www/soukconect
             mkdir -p /var/www/soukconect
             chown -R ec2-user:ec2-user /var/www/soukconect
@@ -99,22 +101,21 @@ jobs:
 
             echo "==> Install production dependencies"
             cd /var/www/soukconect
-            # Removing node_modules ensures pnpm doesn't have a partial-install conflict
             rm -rf node_modules
             sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PNPM install --prod --frozen-lockfile"
 
-            echo "==> Update PM2 process list"
+            echo "==> Updating PM2 Process Table"
             sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 delete all || true"
             sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 start /var/www/soukconect/ecosystem.config.js"
             sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 save"
 
-            echo "==> Restarting PM2 via systemd"
+            echo "==> Restarting via systemd"
             systemctl restart pm2-soukui
             systemctl status pm2-soukui --no-pager
             EOF
 
       # -----------------------------
-      # 7. Health Check
+      # 7. Health Check (BasePath Aware)
       # -----------------------------
       - name: Health check
         uses: appleboy/ssh-action@master
@@ -131,9 +132,9 @@ jobs:
             SHELL_OK=false
             FOOD_OK=false
 
-            echo "==> Checking shell app (port 3000)..."
+            echo "==> Checking shell app (port 3000/ui)..."
             for i in {1..15}; do
-              if curl -sf http://localhost:3000 >/dev/null; then
+              if curl -sf http://localhost:3000/ui >/dev/null; then
                 echo "✅ Shell app is healthy"
                 SHELL_OK=true
                 break
@@ -141,9 +142,9 @@ jobs:
               sleep 2
             done
 
-            echo "==> Checking food-connect app (port 3001)..."
+            echo "==> Checking food-connect app (port 3001/food)..."
             for i in {1..15}; do
-              if curl -sf http://localhost:3001 >/dev/null; then
+              if curl -sf http://localhost:3001/food >/dev/null; then
                 echo "✅ Food-connect app is healthy"
                 FOOD_OK=true
                 break
@@ -152,10 +153,10 @@ jobs:
             done
 
             if [ "$SHELL_OK" = true ] && [ "$FOOD_OK" = true ]; then
-              echo "✅ All apps are healthy"
+              echo "✅ Health Check Passed: Deployment Active"
               exit 0
             else
-              echo "❌ Health check failed"
+              echo "❌ Health Check Failed"
               sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 status"
               exit 1
             fi
