@@ -105,25 +105,30 @@ jobs:
             sudo su - <<'EOF'
             set -e
 
+            NVM_DIR="/home/soukui/.nvm"
+            NODE_BIN="/home/soukui/.nvm/versions/node/v18.20.8/bin"
+            PM2="$NODE_BIN/pm2"
+            PNPM="$NODE_BIN/pnpm"
+
             echo "==> Switching ownership to soukui"
             chown -R soukui:soukui /var/www/soukconect
 
             echo "==> Install production dependencies"
             cd /var/www/soukconect
             rm -rf node_modules
-            sudo -u soukui bash -c "source /home/soukui/.nvm/nvm.sh && /home/soukui/.nvm/versions/node/v18.20.8/bin/pnpm install --prod --frozen-lockfile"
+            sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PNPM install --prod --frozen-lockfile"
 
             echo "==> Update PM2 process list"
-            sudo -u soukui /home/soukui/.nvm/versions/node/v18.20.8/bin/pm2 delete souk-ui || true
-            sudo -u soukui /home/soukui/.nvm/versions/node/v18.20.8/bin/pm2 delete souk-food-connect || true
-            sudo -u soukui /home/soukui/.nvm/versions/node/v18.20.8/bin/pm2 start /var/www/soukconect/ecosystem.config.js
-            sudo -u soukui /home/soukui/.nvm/versions/node/v18.20.8/bin/pm2 save
+            sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 delete souk-ui || true"
+            sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 delete souk-food-connect || true"
+            sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 start /var/www/soukconect/ecosystem.config.js"
+            sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 save"
 
             echo "==> Restarting PM2 via systemd"
             systemctl restart pm2-soukui
 
             echo "==> Systemd service status"
-            systemctl status pm2-soukui
+            systemctl status pm2-soukui --no-pager
             EOF
 
       # -----------------------------
@@ -137,6 +142,12 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             sudo su - <<'EOF'
+            set -e
+
+            NVM_DIR="/home/soukui/.nvm"
+            NODE_BIN="/home/soukui/.nvm/versions/node/v18.20.8/bin"
+            PM2="$NODE_BIN/pm2"
+
             SHELL_OK=false
             FOOD_OK=false
 
@@ -164,7 +175,7 @@ jobs:
             systemctl is-active pm2-soukui
 
             echo "==> PM2 process list"
-            sudo -u soukui /home/soukui/.nvm/versions/node/v18.20.8/bin/pm2 status
+            sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 status"
 
             if [ "$SHELL_OK" = true ] && [ "$FOOD_OK" = true ]; then
               echo "✅ All apps are healthy"
@@ -174,11 +185,11 @@ jobs:
             echo "❌ Health check failed"
             if [ "$SHELL_OK" = false ]; then
               echo "Shell app logs:"
-              sudo -u soukui /home/soukui/.nvm/versions/node/v18.20.8/bin/pm2 logs souk-ui --lines 30 --nostream
+              sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 logs souk-ui --lines 30 --nostream"
             fi
             if [ "$FOOD_OK" = false ]; then
               echo "Food-connect app logs:"
-              sudo -u soukui /home/soukui/.nvm/versions/node/v18.20.8/bin/pm2 logs souk-food-connect --lines 30 --nostream
+              sudo -u soukui bash -c "source $NVM_DIR/nvm.sh && $PM2 logs souk-food-connect --lines 30 --nostream"
             fi
             exit 1
             EOF
