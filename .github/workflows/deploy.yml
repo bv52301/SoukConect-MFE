@@ -14,33 +14,37 @@ jobs:
       # 1. Checkout
       # -----------------------------
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # Updated to v4 for better performance
 
       # -----------------------------
       # 2. Node + pnpm (CI build only)
       # -----------------------------
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4 # Updated to v4
         with:
           node-version: "18"
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v3 # Updated to v3
         with:
           version: 10
 
       # -----------------------------
-      # 3. Install & Build
+      # 3. Install & Build (Fresh Build)
       # -----------------------------
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Build all apps
         env:
-          # Use the new server IP and relative paths for built-in links
+          # Injects the correct relative paths at build time to overwrite any defaults
           NEXT_PUBLIC_API_URL: "http://52.76.119.114/api"
           NEXT_PUBLIC_FOOD_CONNECT_URL: "/food"
-        run: pnpm run build
+        run: |
+          # Force clear build caches to ensure environment variables are baked in fresh
+          rm -rf apps/shell/.next
+          rm -rf apps/food-connect/.next
+          pnpm run build
 
       - name: Ensure public directories exist
         run: |
@@ -59,7 +63,7 @@ jobs:
           script: |
             sudo su - <<'EOF'
             set -e
-            echo "==> Wiping old files to prevent stale configurations"
+            echo "==> Wiping old files on server to prevent stale IP references"
             rm -rf /var/www/soukconect
             mkdir -p /var/www/soukconect
             chown -R ec2-user:ec2-user /var/www/soukconect
