@@ -37,7 +37,8 @@ jobs:
 
       - name: Build all apps
         env:
-          NEXT_PUBLIC_API_URL: "http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com/api"
+          NEXT_PUBLIC_API_URL: "http://ec2-52-76-119-114.ap-southeast-1.compute.amazonaws.com/api"
+           
         run: pnpm run build
 
       - name: Ensure public directories exist
@@ -89,7 +90,8 @@ jobs:
           username: ec2-user
           key: ${{ secrets.SERVER_SSH_KEY }}
           target: /var/www/soukconect
-          source: "apps/shell/.next/,apps/shell/public/,apps/shell/package.json,apps/shell/next.config.js,apps/food-connect/.next/,apps/food-connect/public/,apps/food-connect/package.json,packages/,package.json,pnpm-lock.yaml,pnpm-workspace.yaml,ecosystem.config.js"
+          #source: "apps/shell/.next/,apps/shell/public/,apps/shell/package.json,apps/shell/next.config.js,apps/food-connect/.next/,apps/food-connect/public/,apps/food-connect/package.json,packages/,package.json,pnpm-lock.yaml,pnpm-workspace.yaml,ecosystem.config.js"
+          source: "apps/shell/.next/,apps/shell/public/,apps/shell/package.json,apps/shell/next.config.ts,apps/food-connect/.next/,apps/food-connect/public/,apps/food-connect/package.json,apps/food-connect/next.config.ts,packages/,package.json,pnpm-lock.yaml,pnpm-workspace.yaml,ecosystem.config.js"
           strip_components: 0
 
       # -----------------------------
@@ -116,28 +118,6 @@ jobs:
             cd /var/www/soukconect
             rm -rf node_modules
             pnpm install --prod --frozen-lockfile
-
-            echo "==> Create next.config.js for shell (skip TypeScript requirement)"
-            cat > /var/www/soukconect/apps/shell/next.config.js << 'NEXTCONFIG'
-            /** @type {import('next').NextConfig} */
-            const nextConfig = {
-              reactStrictMode: true,
-              transpilePackages: [],
-            };
-
-            module.exports = nextConfig;
-            NEXTCONFIG
-
-            echo "==> Create next.config.js for food-connect (skip TypeScript requirement)"
-            cat > /var/www/soukconect/apps/food-connect/next.config.js << 'NEXTCONFIG'
-            /** @type {import('next').NextConfig} */
-            const nextConfig = {
-              reactStrictMode: true,
-              transpilePackages: [],
-            };
-
-            module.exports = nextConfig;
-            NEXTCONFIG
 
             echo "==> Start application with PM2 (root)"
             cd /var/www/soukconect
