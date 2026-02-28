@@ -63,10 +63,10 @@ export async function getAllChefIds(): Promise<string[]> {
   return chefs.map(chef => chef.id);
 }
 
+const SERVER_API_URL = process.env.INTERNAL_API_URL || 'http://localhost';
+
 export async function getVendors(): Promise<Vendor[]> {
-  const baseUrl =
-    'http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com';
-  const url = `${baseUrl}/vendors`;
+  const url = `${SERVER_API_URL}/vendors`;
 
   try {
     const res = await fetch(url, { method: 'GET', headers: { Accept: 'application/json' } });
@@ -129,9 +129,7 @@ export type Vendor = {
  * Returns Vendor object on success or null on failure.
  */
 export async function getVendorDetails(vendorId: number): Promise<Vendor | null> {
-  const baseUrl =
-    'http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com';
-  const url = `${baseUrl}/vendors/${encodeURIComponent(String(vendorId))}`;
+  const url = `${SERVER_API_URL}/vendors/${encodeURIComponent(String(vendorId))}`;
 
   try {
     const res = await fetch(url, { method: 'GET', headers: { Accept: 'application/json' } });
@@ -202,9 +200,7 @@ export type Product = {
  * Returns Product[] on success or null on failure.
  */
 export async function getVendorProducts(vendorId: number): Promise<Product[] | null> {
-  const baseUrl =
-    'http://ec2-13-250-197-155.ap-southeast-1.compute.amazonaws.com';
-  const url = `${baseUrl}/products/vendor/${encodeURIComponent(String(vendorId))}`;
+  const url = `${SERVER_API_URL}/products/vendor/${encodeURIComponent(String(vendorId))}`;
 
   try {
     const res = await fetch(url, { method: 'GET', headers: { Accept: 'application/json' } });
