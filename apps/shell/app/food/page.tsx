@@ -1,14 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function FoodRedirect() {
-  const router = useRouter();
-
   useEffect(() => {
-    // Redirect to localhost:3001 (food app's actual location)
-    window.location.href = 'http://localhost:3001';
+    window.location.href = process.env.NEXT_PUBLIC_FOOD_CONNECT_URL || '/food';
   }, []);
 
   return (
