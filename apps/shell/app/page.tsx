@@ -2,8 +2,20 @@
 "use client";
 import Link from "next/link";
 import BannerCMS from "./components/carousel-layout";
-import { config } from "@/lib/config";
+
 export default function HomePage() {
+  // Construct the food connect URL dynamically
+  const getFoodConnectUrl = () => {
+    if (typeof window !== 'undefined') {
+      // Client-side: use current origin
+      return `${window.location.origin}/food`;
+    }
+    // Server-side: use absolute URL
+    return process.env.NODE_ENV === 'production'
+      ? 'http://52.76.119.114/food'
+      : '/food';
+  };
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
@@ -22,7 +34,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Food Connect Card */}
-            <Link href={config.foodConnectUrl}>
+            <Link href={getFoodConnectUrl()}>
               <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-xl hover:scale-105 transition-all duration-300 transform cursor-pointer h-full flex flex-col">
                 <div className="text-5xl mb-3 text-center">🍕</div>
                 <h3 className="text-2xl font-bold text-center mb-2">Food Connect</h3>
