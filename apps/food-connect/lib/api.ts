@@ -1,11 +1,11 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost';
 
 console.log('DEBUG - API_BASE_URL:', API_BASE_URL); // Debug log
 
 export const categoryApi = {
   async getCategories() {
     const url = `${API_BASE_URL}/cuisines/categories`;
-    console.log('DEBUG - Fetching from:', url); // Debug log
+    console.log('DEBUG - Fetching from:', url); // Debug logF
 
     const res = await fetch(url, {
       method: 'GET',
