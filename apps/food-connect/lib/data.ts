@@ -63,7 +63,7 @@ export async function getAllChefIds(): Promise<string[]> {
   return chefs.map(chef => chef.id);
 }
 
-const SERVER_API_URL = process.env.INTERNAL_API_URL || 'http://localhost';
+const SERVER_API_URL = process.env.INTERNAL_API_URL || 'http://52.76.119.114';
 
 export async function getVendors(): Promise<Vendor[]> {
   const url = `${SERVER_API_URL}/vendors`;
@@ -134,7 +134,6 @@ export async function getVendorDetails(vendorId: number): Promise<Vendor | null>
   try {
     const res = await fetch(url, { method: 'GET', headers: { Accept: 'application/json' } });
     if (!res.ok) {
-      // non-2xx
       console.warn(`getVendorDetails: ${res.status} ${res.statusText}`);
       return null;
     }
