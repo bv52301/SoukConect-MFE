@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAuth, type User } from '@/context/auth-context';
+import { authApi } from '@/lib/auth-api';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -13,8 +14,6 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin
   const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [isSignup, setIsSignup] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -24,31 +23,35 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin
     setLoading(true);
 
     try {
-      // Simulate API call - replace with actual backend integration
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Call the actual login API
+      const response = await authApi.login({ email, password });
 
-      if (isSignup && !name) {
-        setError('Name is required for signup');
+      if (!response.success) {
+        setError(response.message || 'Login failed');
         setLoading(false);
         return;
       }
 
-      // Create user object
+      // Create user object from API response
       const userData: User = {
-        id: Math.random().toString(36).substr(2, 9),
+        id: response.data.userId,
         email,
-        name: isSignup ? name : email.split('@')[0],
-        avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`,
+        name: email.split('@')[0],
+        profilePicture: response.data.profilePicture,
       };
 
-      login(userData);
+      // Call login with token and refresh token
+      login(userData, response.data.token, response.data.refreshToken);
+      
+      // Clear form
       setEmail('');
       setPassword('');
-      setName('');
       onLoginSuccess?.();
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Authentication failed');
+      const errorMessage = err instanceof Error ? err.message : 'Authentication failed. Please check your credentials.';
+      setError(errorMessage);
+      console.error('Login error:', err);
     } finally {
       setLoading(false);
     }
@@ -60,30 +63,13 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white rounded-2xl p-8 w-full max-w-md shadow-xl">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold">
-            {isSignup ? 'Create Account' : 'Sign In'}
-          </h2>
+          <h2 className="text-2xl font-bold">Sign In</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700 text-2xl">
             ×
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {isSignup && (
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Full Name
-              </label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-                placeholder="Your name"
-              />
-            </div>
-          )}
-
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Email
@@ -119,24 +105,9 @@ export const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, onLogin
             disabled={loading}
             className="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-2.5 rounded-lg transition disabled:opacity-50"
           >
-            {loading ? 'Processing...' : isSignup ? 'Create Account' : 'Sign In'}
+            {loading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
-
-        <div className="mt-6 text-center">
-          <p className="text-gray-600 text-sm">
-            {isSignup ? 'Already have an account?' : "Don't have an account?"}{' '}
-            <button
-              onClick={() => {
-                setIsSignup(!isSignup);
-                setError('');
-              }}
-              className="text-orange-600 hover:text-orange-700 font-semibold"
-            >
-              {isSignup ? 'Sign In' : 'Sign Up'}
-            </button>
-          </p>
-        </div>
       </div>
     </div>
   );

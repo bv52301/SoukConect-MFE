@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/auth-context';
 import { LoginModal } from './login-modal';
+import { orderApi, createTimeSlot, getTomorrowDate, type CreateOrderRequest } from '@/lib/order-api';
 
 export interface CheckoutItem {
   productId: number;
@@ -27,11 +28,19 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   total,
   onCheckoutSuccess,
 }) => {
-  const { user, isLoggedIn } = useAuth();
+  const { user, isLoggedIn, token } = useAuth();
   const [showLoginModal, setShowLoginModal] = useState(!isLoggedIn);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const [deliveryAddress, setDeliveryAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [deliveryDate, setDeliveryDate] = useState(getTomorrowDate());
+  const [deliveryFlexibility, setDeliveryFlexibility] = useState<'STRICT' | 'FLEXIBLE'>('FLEXIBLE');
+  const [paymentMethod, setPaymentMethod] = useState<'CASH' | 'CARD'>('CASH');
+  const [notes, setNotes] = useState('');
+  const [addressId, setAddressId] = useState<number>(1); // Default address ID
+  const [deliverySlotStart, setDeliverySlotStart] = useState('09:00'); // HH:MM format
+  const [deliverySlotEnd, setDeliverySlotEnd] = useState('17:00'); // HH:MM format
 
   const handleProceedToCheckout = async () => {
     if (!isLoggedIn) {
@@ -40,32 +49,69 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
     }
 
     if (!deliveryAddress || !phoneNumber) {
-      alert('Please fill in all delivery details');
+      setError('Please fill in all delivery details');
       return;
     }
 
+    if (!user?.id) {
+      setError('User information is missing');
+      return;
+    }
+
+    setError('');
     setLoading(true);
+
     try {
-      // Simulate API call - replace with actual backend integration
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Parse delivery times
+      const [startHour, startMinute] = deliverySlotStart.split(':').map(Number);
+      const [endHour, endMinute] = deliverySlotEnd.split(':').map(Number);
 
-      console.log('Order placed:', {
-        userId: user?.id,
-        items,
-        total,
-        deliveryAddress,
-        phoneNumber,
-        timestamp: new Date(),
-      });
+      // Build order items with delivery details
+      const orderItems = items.map(item => ({
+        productId: item.productId,
+        quantity: item.quantity,
+        unitPrice: item.price,
+        requestedDeliveryDate: deliveryDate,
+        deliveryFlexibility: deliveryFlexibility,
+        deliverySlotStart: createTimeSlot(startHour, startMinute),
+        deliverySlotEnd: createTimeSlot(endHour, endMinute),
+      }));
 
-      alert('Order placed successfully!');
-      onCheckoutSuccess?.();
-      onClose();
+      // Create order request
+      const orderRequest: CreateOrderRequest = {
+        customerId: parseInt(user.id),
+        addressId: addressId,
+        totalAmount: total,
+        paymentMethod: paymentMethod,
+        requestedDeliveryDate: deliveryDate,
+        deliveryFlexibility: deliveryFlexibility,
+        deliverySlotStart: createTimeSlot(startHour, startMinute),
+        deliverySlotEnd: createTimeSlot(endHour, endMinute),
+        notes: notes || undefined,
+        items: orderItems,
+      };
+
+      // Call order API
+      const response = await orderApi.createOrder(orderRequest, token || undefined);
+
+      if (!response.success) {
+        setError(response.message || 'Failed to create order');
+        return;
+      }
+
+      console.log('Order created successfully:', response.data);
+      
+      // Reset form
       setDeliveryAddress('');
       setPhoneNumber('');
-    } catch (error) {
-      alert('Failed to place order. Please try again.');
-      console.error(error);
+      setNotes('');
+      
+      onCheckoutSuccess?.();
+      onClose();
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to place order. Please try again.';
+      setError(errorMessage);
+      console.error('Order error:', err);
     } finally {
       setLoading(false);
     }
@@ -115,11 +161,13 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             {/* Delivery Details */}
             {isLoggedIn && (
               <div className="mb-6 space-y-4">
-                <h3 className="font-semibold text-gray-900">Delivery Details</h3>
+                <h3 className="font-semibold text-gray-900 mb-4">Delivery Details</h3>
+
+                {error && <div className="text-red-600 text-sm bg-red-50 p-3 rounded-lg">{error}</div>}
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Delivery Address
+                    Delivery Address *
                   </label>
                   <textarea
                     value={deliveryAddress}
@@ -132,7 +180,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
-                    Phone Number
+                    Phone Number *
                   </label>
                   <input
                     type="tel"
@@ -140,6 +188,89 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
                     placeholder="+1 (555) 123-4567"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Delivery Date
+                    </label>
+                    <input
+                      type="date"
+                      value={deliveryDate}
+                      onChange={(e) => setDeliveryDate(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Delivery Flexibility
+                    </label>
+                    <select
+                      value={deliveryFlexibility}
+                      onChange={(e) => setDeliveryFlexibility(e.target.value as 'STRICT' | 'FLEXIBLE')}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    >
+                      <option value="FLEXIBLE">Flexible</option>
+                      <option value="STRICT">Strict Time</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Slot Start Time
+                    </label>
+                    <input
+                      type="time"
+                      value={deliverySlotStart}
+                      onChange={(e) => setDeliverySlotStart(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Slot End Time
+                    </label>
+                    <input
+                      type="time"
+                      value={deliverySlotEnd}
+                      onChange={(e) => setDeliverySlotEnd(e.target.value)}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Payment Method
+                    </label>
+                    <select
+                      value={paymentMethod}
+                      onChange={(e) => setPaymentMethod(e.target.value as 'CASH' | 'CARD')}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    >
+                      <option value="CASH">Cash on Delivery</option>
+                      <option value="CARD">Card Payment</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Special Notes (Optional)
+                  </label>
+                  <textarea
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    placeholder="Any special instructions for delivery..."
+                    rows={2}
                   />
                 </div>
               </div>
@@ -152,6 +283,8 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                 <span className="text-2xl font-bold text-orange-600">${total.toFixed(2)}</span>
               </div>
             </div>
+
+            {error && !isLoggedIn ? null : error ? <div className="text-red-600 text-sm bg-red-50 p-3 rounded-lg mb-4">{error}</div> : null}
 
             {/* Action Buttons */}
             <div className="flex gap-3">
